@@ -6,6 +6,7 @@ import javax.swing.*;
 
 public class Webtoon extends JFrame {
 
+	
 	public Webtoon(int index)  //나중에 이 인덱스를 가지고 url 통신을 하겠다.
 	{
 		setTitle("testWebtoon");//보고자하는 웹툰 제목?

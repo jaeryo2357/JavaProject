@@ -18,6 +18,23 @@ public class Main extends JFrame {
 		c.setLayout(new BorderLayout(10,10));
 		
 		
+		/* Panel을 이용해  로고 와 검색창 을 넣으려고 한다.
+		 * 
+		 *  */
+		
+		JPanel mainTop=new JPanel();
+		
+		JButton Logo= new JButton("LogoTest");
+		
+		
+		JTextField search =new JTextField(10);
+		
+		mainTop.add(Logo);
+		mainTop.add(search);
+		
+		c.add(mainTop,BorderLayout.NORTH);
+		
+		
 		
 		ImageIcon ic=new ImageIcon("./image/ad.png");
 		JLabel testLabel=new JLabel(ic);
@@ -43,8 +60,8 @@ public class Main extends JFrame {
 			JLabel testLabel=new JLabel(ic);
 			JButton black=new JButton(ic);
 		JButton blank=new JButton(ic);
-		add(blank);
-		add(black);
+		//add(blank);
+		//add(black);
 		   ActionListener listener=new ActionListener() {   //이벤트추가 -> 버튼을 누르면 해당 웹툰이 보여지게
 		    	public void actionPerformed(ActionEvent e)
 		    	{
@@ -52,7 +69,15 @@ public class Main extends JFrame {
 		    	}
 		    };
 		    blank.addActionListener(listener);
+		    
+		    JTextField k =new JTextField(20);
+			add(k);
+			URLtoGet test=new URLtoGet("http://www.nlotto.co.kr/common.do?method=getLottoNumber&drwNo=809");
+			
+			k.setText(test.GetRespon());
 		}
+		
+		
 	}
 	
 	
