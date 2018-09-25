@@ -14,7 +14,7 @@ public class WebtoonList extends JPanel{
 	public WebtoonList() {
 		//getjson=new URLtoGet("");
 		//getresult=getjson.GetRespon();  
-		setLayout(new GridLayout(4,0));
+		setLayout(new GridLayout(0,4));
 		
 		for(int i=0;i<4;i++) //받은 getresult의 배열 길이만큼 반복문
 		{

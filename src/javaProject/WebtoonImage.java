@@ -23,7 +23,7 @@ public class WebtoonImage extends JPanel {
 		this.imageUrl="http://img.naver.net/static/www/u/2013/0731/nmms_224940510.gif";
 		this.explan=explan;
 		
-		this.setSize(200, 100);
+		this.setSize(100, 50);
 		
 		this.setLayout(new GridLayout(1,2));
 		
@@ -36,6 +36,7 @@ public class WebtoonImage extends JPanel {
 		
 		
 		JButton i=new JButton(new ImageIcon(Webimage));
+		i.setSize(50, 50);
 		add(i);
 		
 		add(new explanPanel("test","test"));
@@ -53,6 +54,7 @@ class explanPanel extends JPanel{
 		setLayout(new GridLayout(2,1));
 		
 		JTextField Title=new JTextField();
+		Title.setSize(100, 25);
 		Title.setText(title);
 		add(Title);
 		
