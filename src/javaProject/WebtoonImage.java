@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -23,10 +24,11 @@ public class WebtoonImage extends JPanel {
 		this.imageUrl="http://img.naver.net/static/www/u/2013/0731/nmms_224940510.gif";
 		this.explan=explan;
 		
-		this.setSize(100, 50);
+		this.setSize(20, 20);
 		
 		this.setLayout(new GridLayout(1,2));
-		
+		setBorder(BorderFactory.createEmptyBorder(20 , 20 , 20 , 20)); //상하좌우 10씩 띄우기
+
 		try {
 		URL url=new URL(imageUrl);
 		Webimage=ImageIO.read(url);
@@ -36,7 +38,7 @@ public class WebtoonImage extends JPanel {
 		
 		
 		JButton i=new JButton(new ImageIcon(Webimage));
-		i.setSize(50, 50);
+		i.setSize(20, 20);
 		add(i);
 		
 		add(new explanPanel("test","test"));
