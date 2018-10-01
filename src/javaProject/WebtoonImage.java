@@ -23,27 +23,31 @@ public class WebtoonImage extends JPanel {
 	public WebtoonImage(String imageURL,String explan) {
 		this.imageUrl="http://img.naver.net/static/www/u/2013/0731/nmms_224940510.gif";
 		this.explan=explan;
+	
 		
-		this.setSize(20, 20);
-		
-		this.setLayout(new GridLayout(1,2));
-		setBorder(BorderFactory.createEmptyBorder(20 , 20 , 20 , 20)); //상하좌우 10씩 띄우기
+	
 
-		try {
+	/*	try {
 		URL url=new URL(imageUrl);
 		Webimage=ImageIO.read(url);
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
 		
+		*/
 		
-		JButton i=new JButton(new ImageIcon(Webimage));
-		i.setSize(20, 20);
+		
+		ImageIcon webImage=new ImageIcon("./image/web.PNG");
+		//JButton i=new JButton(new ImageIcon(Webimage));
+		JButton i=new JButton(webImage);
+		
 		add(i);
 		
-		add(new explanPanel("test","test"));
 		
+		JPanel Jexplan=new explanPanel("test","test");
 		
+		Jexplan.setSize(100,50);
+		add(Jexplan);		
 		
 		
 	}
@@ -53,15 +57,16 @@ public class WebtoonImage extends JPanel {
 
 class explanPanel extends JPanel{
 	public explanPanel(String title,String by) {
-		setLayout(new GridLayout(2,1));
 		
 		JTextField Title=new JTextField();
-		Title.setSize(100, 25);
+		
 		Title.setText(title);
+		Title.setSize(100,20);
 		add(Title);
 		
 		
 		JTextField By=new JTextField();
+		By.setSize(100,20);
 		By.setText(by);
 		add(By);
 	}
