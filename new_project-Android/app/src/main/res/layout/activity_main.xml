@@ -1,93 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:stretchColumns="1">
 
-   <EditText
-       android:layout_width="100dp"
-       android:id="@+id/EditText1"
-       android:layout_height="wrap_content"
-       android:layout_alignParentLeft="true"
-       android:layout_marginTop="100dp"
-       android:layout_marginLeft="60dp"
+   <TableRow>
+      <TextView
+          android:text="ID" />
 
-       android:hint="숫자1"/>
+      <EditText
+          android:hint="id"
+          android:id="@+id/EditText"
+          android:imeOptions="actionGo"
+          android:layout_span="3"
+          android:inputType="text"
+          android:maxLines="1"/>
+   </TableRow>
+   <TableRow>
+      <TextView android:text="Password"/>
+      <EditText
+          android:hint="pwd"
+          android:maxLines="1"
+          android:layout_span="3"
+          android:imeOptions="actionNext"
+          android:id="@+id/et1"
+          android:inputType="textPassword"/>
+   </TableRow>
+   <TableRow>
+     <Button
+         android:layout_column="2"
+         android:text="확인">
 
-   <EditText
-       android:layout_width="100dp"
-       android:id="@+id/EditText2"
-       android:layout_height="wrap_content"
-       android:layout_alignBaseline="@id/EditText1"
-       android:layout_toRightOf="@id/EditText1"
-       android:layout_marginLeft="40dp"
-       android:hint="숫자2"/>
+     </Button>
 
-   <Button
-       android:layout_width="70dp"
-       android:layout_height="wrap_content"
-       android:text="-"
-       android:textSize="20dp"
-       android:id="@+id/ButtonSub"
-       android:layout_alignBaseline="@id/ButtonAdd"
-       android:layout_toRightOf="@id/ButtonAdd"
-       android:layout_marginTop="50dp"
-       android:layout_marginLeft="10dp"
+      <Button
+          android:text="취소"/>
+   </TableRow>
 
-       />
+   <TableRow>
 
-   <Button
-       android:layout_width="70dp"
-       android:layout_height="wrap_content"
-       android:text="*"
-       android:textSize="20dp"
-       android:id="@+id/ButtonMux"
-       android:layout_below="@id/EditText1"
-       android:layout_alignBaseline="@id/ButtonSub"
-       android:layout_toRightOf="@id/ButtonSub"
-       android:layout_marginTop="50dp"
-       android:layout_marginLeft="10dp"
+   </TableRow>
 
-       />
+</TableLayout>
 
-   <Button
-       android:layout_width="70dp"
-       android:layout_height="wrap_content"
-       android:text="+"
-       android:textSize="20dp"
-       android:id="@+id/ButtonAdd"
-       android:layout_below="@id/EditText1"
-       android:layout_marginTop="50dp"
-       android:layout_marginLeft="30dp"
-
-       />
-
-   <Button
-       android:layout_width="70dp"
-       android:layout_height="wrap_content"
-       android:text="/"
-       android:textSize="20dp"
-       android:id="@+id/ButtonDiv"
-       android:layout_alignBaseline="@id/ButtonMux"
-       android:layout_toRightOf="@id/ButtonMux"
-       android:layout_marginTop="50dp"
-       android:layout_marginLeft="10dp"
-
-       />
-
-   <TextView
-       android:layout_width="130dp"
-       android:layout_height="wrap_content"
-       android:layout_below="@id/ButtonMux"
-       android:layout_marginTop="50dp"
-       android:layout_centerHorizontal="true"
-       android:textSize="25sp"
-       android:id="@+id/TextView1"
-       android:textStyle="bold"
-       android:paddingLeft="40dp"
-       android:text="결과"/>
-
-</RelativeLayout>
