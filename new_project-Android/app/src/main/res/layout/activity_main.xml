@@ -1,49 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".MainActivity"
-    android:stretchColumns="1">
+   >
 
-   <TableRow>
-      <TextView
-          android:text="ID" />
+    <RelativeLayout
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
 
-      <EditText
-          android:hint="id"
-          android:id="@+id/EditText"
-          android:imeOptions="actionGo"
-          android:layout_span="3"
-          android:inputType="text"
-          android:maxLines="1"/>
-   </TableRow>
-   <TableRow>
-      <TextView android:text="Password"/>
-      <EditText
-          android:hint="pwd"
-          android:maxLines="1"
-          android:layout_span="3"
-          android:imeOptions="actionNext"
-          android:id="@+id/et1"
-          android:inputType="textPassword"/>
-   </TableRow>
-   <TableRow>
-     <Button
-         android:layout_column="2"
-         android:text="확인">
+        <Button
+            android:id="@+id/left"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:text="Left" />
 
-     </Button>
 
-      <Button
-          android:text="취소"/>
-   </TableRow>
+        <EditText
+            android:id="@+id/right"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/left"
+            android:inputType="text"
+            android:layout_alignParentRight="true"
+            android:hint="Right" />
 
-   <TableRow>
 
-   </TableRow>
+    </RelativeLayout>
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:id="@+id/listview"
+        android:layout_below="@+id/topbar"
+        android:layout_alignBottom="@id/view"></ListView>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/view"
+        android:layout_alignTop="@+id/bottomBar"
+        >
 
-</TableLayout>
+    </View>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@id/bottomBar"
+        android:layout_alignParentBottom="true"
+        android:padding="5dp"
+
+        >
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_alignParentRight="true"
+             />
+    </RelativeLayout>
+
+</RelativeLayout>
 
