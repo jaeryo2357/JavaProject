@@ -47,10 +47,10 @@ public class WebToonItem {
         this.release = release;
     }
 
-    String Title;
-    String byname;
-    Bitmap icon;
-    String release;
+    private String Title;
+    private String byname;
+    private Bitmap icon;
+    private String release;
    // ProgressBar progress;
 
 

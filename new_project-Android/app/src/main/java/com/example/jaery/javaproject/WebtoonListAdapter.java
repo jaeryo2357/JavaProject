@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 
 import android.widget.TextView;
@@ -44,17 +45,26 @@ public class WebtoonListAdapter extends ArrayAdapter<WebToonItem> {
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
         if (convertView == null) {
             convertView = context.getLayoutInflater().inflate(R.layout.webtoon_list_item, parent, false);
 
-            ViewHolder holder = new ViewHolder();
+            holder = new ViewHolder();
             holder.icon = (ImageView) convertView.findViewById(R.id.Webtoon_Image);
             holder.text = (TextView) convertView.findViewById(R.id.webtoon_title);
             holder.timestamp = (TextView) convertView.findViewById(R.id.webtoon_up_time);
             holder.byname = (TextView) convertView.findViewById(R.id.webtoon_byname);
             convertView.setTag(holder);
         }
+        else
+        {
+            holder = (ViewHolder) convertView.getTag();
+        }
 
+        holder.byname.setText(arrayList.get(position).getByname());
+        holder.icon.setImageBitmap(arrayList.get(position).getIcon());
+        holder.text.setText(arrayList.get(position).getTitle());
+        holder.timestamp.setText(arrayList.get(position).getRelease());
        /* ((TextView) convertView.findViewById(android.R.id.text1))
                 .setText(getItem(position));
                 */

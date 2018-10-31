@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@mipmap/ic_launcher"
+
         android:id="@+id/Webtoon_Image"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="8dp"
@@ -16,7 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="웹툰 제목"
+
         android:id="@+id/webtoon_title"
         android:layout_toRightOf="@id/Webtoon_Image"
         android:layout_alignTop="@id/Webtoon_Image"
@@ -29,7 +29,7 @@
         android:layout_below="@id/webtoon_title"
         android:id="@+id/webtoon_byname"
         android:textSize="17sp"
-        android:text="미눅"
+
         android:layout_alignLeft="@id/webtoon_title" />
 
     <TextView
@@ -38,5 +38,5 @@
         android:id="@+id/webtoon_up_time"
         android:layout_below="@id/webtoon_byname"
         android:layout_alignParentRight="true"
-        android:text="2018.10.29" />
+        />
 </RelativeLayout>
