@@ -12,6 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
+        android:layout_marginBottom="8dp"
         />
 
     <TextView
@@ -21,7 +22,7 @@
         android:id="@+id/webtoon_title"
         android:layout_toRightOf="@id/Webtoon_Image"
         android:layout_alignTop="@id/Webtoon_Image"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:textStyle="bold"/>
 
     <TextView
@@ -29,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/webtoon_title"
         android:id="@+id/webtoon_byname"
-        android:textSize="10sp"
+        android:textSize="11sp"
         android:layout_alignLeft="@id/webtoon_title" />
 
     <TextView
@@ -37,7 +38,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/webtoon_up_time"
         android:layout_marginRight="10dp"
-        android:textSize="9sp"
+        android:textSize="10sp"
         android:layout_alignTop="@id/webtoon_title"
         android:layout_alignParentRight="true"
         />
