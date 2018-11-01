@@ -2,15 +2,16 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:padding="8dp">
+    >
 
     <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/Webtoon_Image"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
         />
 
     <TextView
@@ -20,7 +21,7 @@
         android:id="@+id/webtoon_title"
         android:layout_toRightOf="@id/Webtoon_Image"
         android:layout_alignTop="@id/Webtoon_Image"
-        android:textSize="20sp"
+        android:textSize="12sp"
         android:textStyle="bold"/>
 
     <TextView
@@ -28,15 +29,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/webtoon_title"
         android:id="@+id/webtoon_byname"
-        android:textSize="17sp"
-
+        android:textSize="10sp"
         android:layout_alignLeft="@id/webtoon_title" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/webtoon_up_time"
-        android:layout_below="@id/webtoon_byname"
+        android:layout_marginRight="10dp"
+        android:textSize="9sp"
+        android:layout_alignTop="@id/webtoon_title"
         android:layout_alignParentRight="true"
         />
 </RelativeLayout>
