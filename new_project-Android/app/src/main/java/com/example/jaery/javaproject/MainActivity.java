@@ -22,15 +22,32 @@ public class MainActivity extends AppCompatActivity {
 
 
         ///리스트 추가하는 부분
-        adapter.addItem("신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem("신과함께2","작가2","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem("신과함께3","작가3","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem("신과함께4","작가4","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem("신과함께5","작가5","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background));
-        adapter.addItem("신과함께6","작가6","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background));
-        adapter.addItem("신과함께7","작가7","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background));
-        adapter.addItem("신과함께8","작가8","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background));
-        adapter.addItem("신과함께9","작가9","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께2","작가2","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께3","작가3","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+
+
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께2","작가2","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께3","작가3","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+
+        adapter.addItem(R.layout.webtoon_view_item,BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께2","작가2","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께3","작가3","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+
+        adapter.addItem(R.layout.webtoon_view_item,BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께2","작가2","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께3","작가3","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_view_item,BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_view_item,BitmapFactory.decodeResource(getResources(),R.drawable.cat_food)); adapter.addItem(R.layout.webtoon_view_item,BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+
+        adapter.addItem(R.layout.webtoon_view_item,BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께2","작가2","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+        adapter.addItem(R.layout.webtoon_list_item,"신과함께3","작가3","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
+
         ListView listView=findViewById(R.id.listview);
         listView.setAdapter(adapter);
 
