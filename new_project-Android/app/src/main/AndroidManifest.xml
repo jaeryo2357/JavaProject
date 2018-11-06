@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".WebtoonList" />
-        <activity android:name=".WebttonViewer"></activity>
+        <activity android:name=".WebttonViewer" />
+        <activity android:name=".CardViewAdapter"></activity>
     </application>
 
 </manifest>
