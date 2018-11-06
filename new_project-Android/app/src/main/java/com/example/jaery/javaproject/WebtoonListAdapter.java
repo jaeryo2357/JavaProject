@@ -4,6 +4,7 @@ package com.example.jaery.javaproject;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -17,6 +18,9 @@ import java.util.ArrayList;
 public class WebtoonListAdapter extends ArrayAdapter<WebToonItem> {
      private final Activity context;
 
+     private static final int ITEM_VIEW_TYPE=0;
+     private static final int ITEM_LIST_TYPE=1;
+     private static final int ITEM_TYPE_MAX=2;
      private  ArrayList<WebToonItem> arrayList;
     public WebtoonListAdapter(Activity context) {
         super(context,R.layout.webtoon_list_item);
@@ -30,6 +34,17 @@ public class WebtoonListAdapter extends ArrayAdapter<WebToonItem> {
     }
 
     @Override
+    public int getViewTypeCount(){
+        return ITEM_TYPE_MAX;
+    }
+
+    @Override
+    public int getItemViewType(int position)
+    {
+        return arrayList.get(position).getType();
+    }
+
+    @Override
     public WebToonItem getItem(int position) {
         return arrayList.get(position);
     }
@@ -39,52 +54,75 @@ public class WebtoonListAdapter extends ArrayAdapter<WebToonItem> {
         return 0;
     }
 
-    public void addItem(boolean change,int resource,String title, String byname, String relase, Bitmap b)
+    public void addItem(int resource,String title, String byname, String relase, Bitmap b)
     {
-        WebToonItem webToonItem=new WebToonItem(resource,title,byname,relase,b);
+        WebToonItem webToonItem=new WebToonItem(ITEM_LIST_TYPE,title,byname,relase,b);
         arrayList.add(webToonItem);
     }
 
     public void addItem(int resource,Bitmap b)
     {
-        WebToonItem webToonItem=new WebToonItem(resource,b);
+        WebToonItem webToonItem=new WebToonItem(ITEM_VIEW_TYPE,b);
         arrayList.add(webToonItem);
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder=null;
+        int viewType=getItemViewType(position);
+        WebToonItem webToonItem=arrayList.get(position);
+
         if (convertView == null) {
+            LayoutInflater inflater = context.getLayoutInflater();
+            int layout=0;
+            switch (viewType)
+            {
+                case ITEM_LIST_TYPE:
+                    layout=R.layout.webtoon_list_item;
+                    break;
+                case ITEM_VIEW_TYPE:
+                    layout=R.layout.webtoon_view_item;
+                    break;
+            }
 
-                convertView = context.getLayoutInflater().inflate(arrayList.get(position).getResource(), parent, false);
-                holder=connectResource(convertView,arrayList.get(position).getResource());
+            convertView=inflater.inflate(layout,parent,false);
 
-                convertView.setTag(holder);
+
+
+           holder=connectResource(convertView,viewType);
 
 
         }
-        else
+
+        try {
+            holder.byname.setText(webToonItem.getByname());
+
+            holder.text.setText(webToonItem.getTitle());
+
+            holder.timestamp.setText(webToonItem.getRelease());
+
+        }catch (NullPointerException e)
         {
-            holder = (ViewHolder) convertView.getTag();
-
-
-
+            e.printStackTrace();
         }
-        if(holder.byname!=null)
-        holder.byname.setText(arrayList.get(position).getByname());
-        if(holder.text !=null)
-        holder.text.setText(arrayList.get(position).getTitle());
-        if(holder.timestamp !=null)
-        holder.timestamp.setText(arrayList.get(position).getRelease());
-        holder.icon.setImageBitmap(arrayList.get(position).getIcon());
+
+        try{
+            holder.icon.setImageBitmap(webToonItem.getIcon());
+        }catch (NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+
 
         return convertView;
     }
 
     public ViewHolder connectResource(View convertView,int resource){
             ViewHolder holder=new ViewHolder();
+
+
         switch (resource)
         {
-            case R.layout.webtoon_list_item:
+            case ITEM_LIST_TYPE:
 
                 holder.byname=convertView.findViewById(R.id.webtoon_byname);
                 holder.icon=convertView.findViewById(R.id.Webtoon_Image);
@@ -93,7 +131,7 @@ public class WebtoonListAdapter extends ArrayAdapter<WebToonItem> {
 
                 break;
 
-            case R.layout.webtoon_view_item:
+            case ITEM_VIEW_TYPE:
 
 
                 holder.icon=convertView.findViewById(R.id.view_list_image);

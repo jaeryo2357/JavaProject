@@ -8,19 +8,19 @@ import android.widget.TextView;
 
 public class WebToonItem {
 
-    public WebToonItem(boolean change,int resource,String title, String byname, String release,Bitmap Image)
+    public WebToonItem(int Type,String title, String byname, String release,Bitmap Image)
     {
-        this.change=change;
-        this.resource=resource;
+
+        this.Type=Type;
         this.Title=title;
         this.byname=byname;
         this.release=release;
         this.icon=Image;
     }
-    public WebToonItem(boolean change,int resource, Bitmap image)
+    public WebToonItem(int Type, Bitmap image)
     {
-        this.change=change;
-        this.resource=resource;
+        this.Type=Type;
+
         this.icon=image;
     }
     public String getTitle() {
@@ -55,19 +55,18 @@ public class WebToonItem {
         this.release = release;
     }
 
-    public void setResource(int resource){this.resource=resource;}
-    public int getResource(){return resource;}
+    public void setType(int Type){this.Type=Type;}
+    public int getType(){return Type;}
 
-    public boolean getChange() {
-        return change;
-    }
 
-    private int resource;
+
+
     private String Title;
+    int Type;
     private String byname;
     private Bitmap icon;
     private String release;
-    private boolean change;
+
    // ProgressBar progress;
 
 
