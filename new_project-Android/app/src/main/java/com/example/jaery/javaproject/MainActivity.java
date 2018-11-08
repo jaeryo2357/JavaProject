@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     EditText editText;
-    boolean express=false;
+    boolean express = false;
     View view;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -38,11 +39,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        express=false;// 처음에는 검색창이 확장되어 있지않음
+        express = false;// 처음에는 검색창이 확장되어 있지않음
 
 
-        editText=findViewById(R.id.search_webtoon);
-        view=findViewById(R.id.inflate);
+        editText = findViewById(R.id.search_webtoon);
+        view = findViewById(R.id.inflate);
 
         editText.setOnClickListener(new View.OnClickListener(
 
@@ -51,8 +52,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(express)
-                {
+                if (express) {
 
                     editText.post(new Runnable() {
                         @Override
@@ -60,85 +60,102 @@ public class MainActivity extends AppCompatActivity {
                             editText.setFocusableInTouchMode(true);
                             editText.requestFocus();
 
-                            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-                            imm.showSoftInput(editText,0);
+                            imm.showSoftInput(editText, 0);
 
                         }
                     });
 
-                }
-                else{
-                            express = true;
-                                editText.clearFocus();
-                                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editText.getLayoutParams();
-                                //    layoutParams.removeRule(RelativeLayout.ALIGN_LEFT);
-                                layoutParams.addRule(RelativeLayout.ALIGN_LEFT, R.id.inflate);
-                                editText.setLayoutParams(layoutParams);
+                }else{
 
-                                layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-                        ValueAnimator animator = ValueAnimator.ofInt(layoutParams.leftMargin, 0);
-                        final RelativeLayout.LayoutParams finalLayoutParams = layoutParams;
-                        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator valueAnimator)
-                        {
-                            finalLayoutParams.leftMargin = (Integer) valueAnimator.getAnimatedValue();
+                express = true;
+                TextView textView=findViewById(R.id.Project_title);
+                textView.setVisibility(View.GONE);
+                editText.clearFocus();
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editText.getLayoutParams();
+                //    layoutParams.removeRule(RelativeLayout.ALIGN_LEFT);
+                layoutParams.addRule(RelativeLayout.ALIGN_LEFT, R.id.inflate);
+                editText.setLayoutParams(layoutParams);
 
-                            view.setLayoutParams(finalLayoutParams);
-                        }
-                    });
-                    animator.setDuration(300);
-                    animator.start();
+                layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+                ValueAnimator animator = ValueAnimator.ofInt(layoutParams.leftMargin, 0);
+                final RelativeLayout.LayoutParams finalLayoutParams = layoutParams;
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        finalLayoutParams.leftMargin = (Integer) valueAnimator.getAnimatedValue();
+
+                        view.setLayoutParams(finalLayoutParams);
                     }
-                }
-        });
-
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
-                {
-                    RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams)editText.getLayoutParams();
-                    //    layoutParams.removeRule(RelativeLayout.ALIGN_LEFT);
-                    layoutParams.addRule(RelativeLayout.ALIGN_LEFT,R.id.notinflate);
-                    editText.setLayoutParams(layoutParams);
-                    express=false;
-                    editText.setText("");
-                    editText.setFocusable(false);
-                    layoutParams=(RelativeLayout.LayoutParams)view.getLayoutParams();
-                    layoutParams.leftMargin=230;
-                    view.setLayoutParams(layoutParams);
-                }
+                });
+                animator.setDuration(300);
+                animator.start();
             }
-        });
+        }
+    });
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycle);
-        mLayoutManager=new LinearLayoutManager(this);
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener()
+
+    {
+        @Override
+        public void onFocusChange (View v,boolean hasFocus){
+        if (!hasFocus) {
+            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editText.getLayoutParams();
+            //    layoutParams.removeRule(RelativeLayout.ALIGN_LEFT);
+            layoutParams.addRule(RelativeLayout.ALIGN_LEFT, R.id.notinflate);
+            editText.setLayoutParams(layoutParams);
+            express = false;
+            editText.setText("");
+            editText.setFocusable(false);
+            layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+            layoutParams.leftMargin = 250;
+            view.setLayoutParams(layoutParams);
+        }
+    }
+    });
+
+    mRecyclerView =(RecyclerView)
+
+    findViewById(R.id.recycle);
+
+    mLayoutManager=new
+
+    LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        myDataset = new ArrayList<>();
-        mAdapter = new CardViewAdapter(myDataset);
+    myDataset =new ArrayList<>();
+    mAdapter =new
+
+    CardViewAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
 
-        myDataset.add(new WebToonItem(R.layout.webtoon_list_item,"신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.webtoon_test)));
-        myDataset.add(new WebToonItem(R.layout.webtoon_list_item,"신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.webtoon_test)));
+        myDataset.add(new
 
-        myDataset.add(new WebToonItem(R.layout.webtoon_list_item,"신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.webtoon_test)));
+    WebToonItem(R.layout.webtoon_list_item,"신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.webtoon_test)));
+        myDataset.add(new
 
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(getApplicationContext(),position+"번 째 아이템 클릭",Toast.LENGTH_SHORT).show();
-            }
+    WebToonItem(R.layout.webtoon_list_item,"신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.webtoon_test)));
 
-            @Override
-            public void onLongItemClick(View view, int position) {
-                Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
-            }
-        }));
+        myDataset.add(new
 
+    WebToonItem(R.layout.webtoon_list_item,"신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.webtoon_test)));
 
+        mRecyclerView.addOnItemTouchListener(new
 
+    RecyclerItemClickListener(getApplicationContext(),mRecyclerView, new RecyclerItemClickListener.OnItemClickListener()
 
+    {
+        @Override
+        public void onItemClick (View view,int position){
+        Toast.makeText(getApplicationContext(), position + "번 째 아이템 클릭", Toast.LENGTH_SHORT).show();
     }
+
+        @Override
+        public void onLongItemClick (View view,int position){
+        Toast.makeText(getApplicationContext(), position + "번 째 아이템 롱 클릭", Toast.LENGTH_SHORT).show();
+    }
+    }));
+
+
+}
 }

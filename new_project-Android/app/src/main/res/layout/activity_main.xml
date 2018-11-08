@@ -16,12 +16,25 @@
         android:layout_alignParentTop="true">
 
 
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:id="@+id/inflate"
             android:layout_marginLeft="250dp"
             android:layout_alignParentLeft="true"></View>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="MyWebtoon"
+            android:id="@+id/Project_title"
+            android:layout_centerHorizontal="true"
+            android:layout_alignTop="@id/search_webtoon"
+            android:textSize="25dp"/>
+
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -36,6 +49,8 @@
             android:layout_alignLeft="@id/notinflate"
             android:focusable="false"
             android:inputType="text"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:paddingLeft="13dp"
             android:background="@drawable/round_background"
             android:layout_alignParentRight="true"
