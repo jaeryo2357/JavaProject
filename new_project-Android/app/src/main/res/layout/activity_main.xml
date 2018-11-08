@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:id="@+id/inflate"
-            android:layout_marginLeft="230dp"
+            android:layout_marginLeft="250dp"
             android:layout_alignParentLeft="true"></View>
         <View
             android:layout_width="0dp"

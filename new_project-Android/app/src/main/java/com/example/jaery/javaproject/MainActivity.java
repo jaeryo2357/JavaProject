@@ -4,11 +4,13 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -23,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     EditText editText;
-    boolean express;
+    boolean express=false;
     View view;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -51,18 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(express)
                 {
-                    /*
-                    RelativeLayout.LayoutParams layoutParams=(RelativeLayout.LayoutParams)editText.getLayoutParams();
-                //    layoutParams.removeRule(RelativeLayout.ALIGN_LEFT);
-                    layoutParams.addRule(RelativeLayout.ALIGN_LEFT,R.id.notinflate);
-                    editText.setLayoutParams(layoutParams);
-                    express=false;
-                    editText.setFocusable(false);
-                    layoutParams=(RelativeLayout.LayoutParams)view.getLayoutParams();
-                    layoutParams.leftMargin=230;
-                    view.setLayoutParams(layoutParams);
-                    e
-*/
+
                     editText.post(new Runnable() {
                         @Override
                         public void run() {
@@ -78,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 else{
-                    express = true;
+                            express = true;
                                 editText.clearFocus();
                                 RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editText.getLayoutParams();
                                 //    layoutParams.removeRule(RelativeLayout.ALIGN_LEFT);
@@ -86,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
                                 editText.setLayoutParams(layoutParams);
 
                                 layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-                    ValueAnimator animator = ValueAnimator.ofInt(layoutParams.leftMargin, 0);
-                    final RelativeLayout.LayoutParams finalLayoutParams = layoutParams;
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                        ValueAnimator animator = ValueAnimator.ofInt(layoutParams.leftMargin, 0);
+                        final RelativeLayout.LayoutParams finalLayoutParams = layoutParams;
+                        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                         @Override
                         public void onAnimationUpdate(ValueAnimator valueAnimator)
                         {
@@ -97,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                             view.setLayoutParams(finalLayoutParams);
                         }
                     });
-                    animator.setDuration(200);
+                    animator.setDuration(300);
                     animator.start();
                     }
                 }
@@ -134,46 +125,20 @@ public class MainActivity extends AppCompatActivity {
 
         myDataset.add(new WebToonItem(R.layout.webtoon_list_item,"신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.webtoon_test)));
 
-
-
-
-
-/*
-     final WebtoonListAdapter adapter=new WebtoonListAdapter(this);
-
-        ///리스트 추가하는 부분
-       adapter.addItem(R.layout.webtoon_list_item,"신과함께1","작가1","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem(R.layout.webtoon_list_item,"신과함께2","작가2","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem(R.layout.webtoon_list_item,"신과함께3","작가3","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-
-
-        adapter.addItem(R.layout.webtoon_list_item,"신과함께1","작가4","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem(R.layout.webtoon_list_item,"신과함께2","작가5","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem(R.layout.webtoon_list_item,"신과함께3","작가6","2018.10.2",BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-
-        adapter.addItem(R.layout.webtoon_view_item,BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem(R.layout.webtoon_view_item,BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem(R.layout.webtoon_view_item,BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem(R.layout.webtoon_view_item,BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem(R.layout.webtoon_view_item,BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem(R.layout.webtoon_view_item,BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-        adapter.addItem(R.layout.webtoon_view_item,BitmapFactory.decodeResource(getResources(),R.drawable.cat_food));
-
-        ListView listView=findViewById(R.id.listview);
-        listView.setAdapter(adapter);
-
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                WebToonItem ClickingItem=adapter.getItem(position);
-                Toast.makeText(MainActivity.this,ClickingItem.getTitle(),Toast.LENGTH_LONG).show();
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getApplicationContext(),position+"번 째 아이템 클릭",Toast.LENGTH_SHORT).show();
             }
-        });
+
+            @Override
+            public void onLongItemClick(View view, int position) {
+                Toast.makeText(getApplicationContext(),position+"번 째 아이템 롱 클릭",Toast.LENGTH_SHORT).show();
+            }
+        }));
 
 
 
-*/
 
     }
 }
