@@ -4,8 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#44b0e0e6"
     tools:context=".WebtoonList">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/webtoon_list_topbar"
+        android:background="@drawable/stroke">
+
+        <Button
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:id="@+id/webtoon_list_before"
+            android:background="@drawable/ic_navigate_before_black_24dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="노블레스"
+            android:id="@+id/webtoon_list_Title"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@id/webtoon_list_before"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="첫회보기"
+            android:background="@null"
+            android:textSize="17sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="3dp"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/webtoon_list_image"
+        android:layout_below="@+id/webtoon_list_topbar"
+        android:src="@drawable/webtoon_test"/>
 
 
 
