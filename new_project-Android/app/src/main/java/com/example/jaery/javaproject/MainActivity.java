@@ -1,26 +1,17 @@
 package com.example.jaery.javaproject;
 
 import android.animation.ValueAnimator;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,11 +28,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<WebToonItem> myDataset;
-    boolean gone=false;
+    boolean gone = false;
 
-    int oldScrollY=0;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+
         mRecyclerView = (RecyclerView)
 
                 findViewById(R.id.recycle);
@@ -148,8 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
                 WebToonItem(R.layout.webtoon_list_item, "신과함께1", "작가1", "2018.10.2", BitmapFactory.decodeResource(getResources(), R.drawable.webtoon_test)));
 
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener()
-        {
+        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Toast.makeText(getApplicationContext(), position + "번 째 아이템 클릭", Toast.LENGTH_SHORT).show();
@@ -157,10 +152,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onLongItemClick(View view, int position) {
-              //  Toast.makeText(getApplicationContext(), position + "번 째 아이템 롱 클릭", Toast.LENGTH_SHORT).show();
-                DialogFragment notice=new NoticeDialogFragment();
-                notice.setCancelable(false);
-                notice.show(getSupportFragmentManager(),"notice");
+                //  Toast.makeText(getApplicationContext(), position + "번 째 아이템 롱 클릭", Toast.LENGTH_SHORT).show();
+
             }
         }));
 /*
@@ -209,27 +202,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static class NoticeDialogFragment extends DialogFragment{  //public 이 2개있을수없어 static으로 만듬
-       @NonNull
-        @Override
-        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
 
 
-           AlertDialog.Builder adBuilder= new AlertDialog.Builder(getActivity());
-           adBuilder.setMessage("Time out!")
-                   .setTitle("Notice")
-                   .setIcon(R.mipmap.ic_launcher)
-                   .setPositiveButton("Close", new DialogInterface.OnClickListener() {
-                       @Override
-                       public void onClick(DialogInterface dialog, int which) {
-
-                       }
-                   })
-                   .setCancelable(false);
-           return adBuilder.create();
-           //return super.onCreateDialog(savedInstanceState);
-       }
-    }
 
 
 }
