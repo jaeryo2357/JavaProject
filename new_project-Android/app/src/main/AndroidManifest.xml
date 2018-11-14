@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".WebtoonList" />
         <activity android:name=".WebttonViewer" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".Register"></activity>
     </application>
 
 </manifest>

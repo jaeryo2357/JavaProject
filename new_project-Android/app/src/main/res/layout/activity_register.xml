@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#ffffff"
+    android:layout_height="match_parent"
+    tools:context=".Register">
+
+
+    <ImageView
+        android:layout_width="170dp"
+        android:layout_height="190dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:id="@+id/register_image"
+        android:contentDescription="@null"
+        android:src="@drawable/logo" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_below="@id/register_image"
+        android:layout_marginTop="20dp"
+        android:paddingTop="10dp"
+        android:textSize="18sp"
+        android:id="@+id/register_ID"
+        android:inputType="text"
+        android:paddingBottom="10dp"
+        android:background="@drawable/round_background"
+        android:hint="ID"
+        android:maxLines="1"
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_below="@id/register_ID"
+        android:paddingRight="20dp"
+        android:layout_marginTop="25dp"
+        android:maxLines="1"
+        android:paddingTop="10dp"
+        android:textSize="18sp"
+        android:id="@+id/register_pwd"
+        android:inputType="textPassword"
+        android:paddingBottom="10dp"
+        android:background="@drawable/round_background"
+        android:hint="PWD"
+        android:paddingLeft="20dp"/>
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round_background_v2"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/register_pwd"
+        android:text="Login"
+        />
+</RelativeLayout>

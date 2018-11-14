@@ -4,15 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     tools:context=".Loading">
 
 
     <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="180dp"
+        android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:id="@+id/loading_image"
-        android:src="@mipmap/ic_launcher"/>
+        android:contentDescription="@null"
+        android:src="@drawable/logo"/>
 
 </RelativeLayout>
