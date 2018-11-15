@@ -2,6 +2,7 @@ package com.example.jaery.javaproject;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -28,11 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<WebToonItem> myDataset;
-    boolean gone = false;
-
-
-
-
+    DBOpenHelper mydb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         express = false;// 처음에는 검색창이 확장되어 있지않음
 
-
+        mydb=new DBOpenHelper(this);
+        mydb.open();
         editText = findViewById(R.id.search_webtoon);
         view = findViewById(R.id.inflate);
 
@@ -59,9 +57,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             editText.setFocusableInTouchMode(true);
                             editText.requestFocus();
-
                             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
                             imm.showSoftInput(editText, 0);
 
                         }
@@ -116,20 +112,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-
         mRecyclerView = (RecyclerView)
-
                 findViewById(R.id.recycle);
-
         mLayoutManager = new
-
                 LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         myDataset = new ArrayList<>();
         mAdapter = new
-
                 CardViewAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
 
@@ -156,54 +145,20 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }));
-/*
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
 
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                if(oldScrollY==0)
-                {
-                    oldScrollY=dy;
-                }else if((oldScrollY-dy)>0)
-                {
-                    if(gone==false) {
-                        RelativeLayout relativeLayout = findViewById(R.id.topbar);
-                        relativeLayout.setVisibility(View.GONE);
-                        gone = true;
-                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) recyclerView.getLayoutParams();
-                        layoutParams.removeRule(RelativeLayout.BELOW);
-                        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                        recyclerView.setLayoutParams(layoutParams);
-                    }
-                        oldScrollY = dy;
-
-                }else
-                {
-                    if(gone) {
-                        RelativeLayout relativeLayout = findViewById(R.id.topbar);
-                        relativeLayout.setVisibility(View.VISIBLE);
-                        gone=false;
-                        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) recyclerView.getLayoutParams();
-                        layoutParams.addRule(RelativeLayout.BELOW, R.id.topbar);
-                        layoutParams.removeRule(RelativeLayout.ALIGN_PARENT_TOP);
-                        recyclerView.setLayoutParams(layoutParams);
-                    }
-                    oldScrollY=dy;
-                }
-            }
-        });
-*/
 
     }
 
-
-
+    public void gotoMypage(View v)
+    {
+        if(mydb.findauto()==0||mydb.findauto()==-1) {
+            Intent intent = new Intent(MainActivity.this, Register.class);
+            startActivity(intent);
+        }else
+        {
+            Toast.makeText(MainActivity.this,"로그인 상태",Toast.LENGTH_LONG).show();
+        }
+    }
 
 
 }

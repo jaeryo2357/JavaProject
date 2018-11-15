@@ -12,11 +12,16 @@ public class Loading extends AppCompatActivity {
 
     private ImageView imgAndroid;
     private Animation anim;
-
+    DBOpenHelper mydb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
+        mydb=new DBOpenHelper(this);
+        mydb.open();
+
+        if(mydb.findauto()==1)
+            mydb.UpdateAuto(0);
         initView();
 
         new Handler().postDelayed(new Runnable()
@@ -33,7 +38,7 @@ public class Loading extends AppCompatActivity {
                     @Override
                     public void run()
                     {
-                        Intent intent=new Intent(Loading.this,Register.class);
+                        Intent intent=new Intent(Loading.this,MainActivity.class);
                         startActivity(intent);
                         finish();
                         //여기에 딜레이 후 시작할 작업들을 입력

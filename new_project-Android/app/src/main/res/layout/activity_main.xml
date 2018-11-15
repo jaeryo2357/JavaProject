@@ -17,6 +17,14 @@
         android:layout_alignParentTop="true">
 
 
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:onClick="gotoMypage"
+            android:layout_marginLeft="15dp"
+            android:background="@null"
+            android:src="@drawable/ic_person_black_24dp" />
 
 
 
