@@ -73,38 +73,16 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
+
+    <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
         android:layout_width="match_parent"
-        android:layout_alignBottom="@id/view"
+        android:layout_marginTop="15dp"
         android:layout_below="@id/topbar"
-        android:id="@+id/recycle"
-        android:scrollbars="vertical"
-        android:layout_height="0dp"></android.support.v7.widget.RecyclerView>
+        android:id="@+id/main_viewpager"
+        android:layout_height="230dp"
+        ></cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager>
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:id="@+id/view"
-        android:layout_alignTop="@+id/bottomBar"
-        >
 
-    </View>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@id/bottomBar"
-        android:layout_alignParentBottom="true"
-        android:padding="5dp"
-
-        >
-
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            android:layout_alignParentRight="true"
-             />
-    </RelativeLayout>
 
 </RelativeLayout>
 

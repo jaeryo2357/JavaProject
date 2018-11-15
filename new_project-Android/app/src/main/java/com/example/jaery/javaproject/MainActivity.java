@@ -19,16 +19,22 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
+
 public class MainActivity extends AppCompatActivity {
 
-
+    AutoScrollViewPager autoViewPager;
     EditText editText;
     boolean express = false;
     View view;
+
+    /*
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<WebToonItem> myDataset;
+
+    */
     DBOpenHelper mydb;
 
     @Override
@@ -42,7 +48,26 @@ public class MainActivity extends AppCompatActivity {
         mydb.open();
         editText = findViewById(R.id.search_webtoon);
         view = findViewById(R.id.inflate);
+////// View pager
 
+
+        ArrayList<Integer> data = new ArrayList<>(); //이미지 url를 저장하는 arraylist
+        data.add(R.drawable.main_image1);
+        data.add(R.drawable.main_image2);
+
+
+        autoViewPager = (AutoScrollViewPager)findViewById(R.id.main_viewpager);
+        AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(this, data);
+        autoViewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
+        autoViewPager.setInterval(5000); // 페이지 넘어갈 시간 간격 설정
+        autoViewPager.startAutoScroll(); //Auto Scroll 시작
+
+
+
+
+
+
+        ///////////////
         editText.setOnClickListener(new View.OnClickListener(
 
         ) {
@@ -111,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
+/*
         mRecyclerView = (RecyclerView)
                 findViewById(R.id.recycle);
         mLayoutManager = new
@@ -145,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         }));
-
+*/
 
     }
 
