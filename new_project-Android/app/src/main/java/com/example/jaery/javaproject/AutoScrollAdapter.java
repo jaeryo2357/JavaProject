@@ -27,6 +27,10 @@ public class AutoScrollAdapter extends PagerAdapter {
         this.data = data;
     }
 
+    interface viewpagerOnClickListener{
+        public void OnPageClick(View v,int position);
+    }
+
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
 

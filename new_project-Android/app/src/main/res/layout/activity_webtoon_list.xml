@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/webtoon_list_image"
         android:layout_below="@+id/webtoon_list_topbar"
-        android:src="@drawable/webtoon_test"/>
+        />
 
 
 

@@ -24,7 +24,7 @@
             android:onClick="gotoMypage"
             android:layout_marginLeft="15dp"
             android:background="@null"
-            android:src="@drawable/ic_person_black_24dp" />
+            android:src="@drawable/ic_person_white_24dp" />
 
 
 
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="MyWebtoon"
+            android:text="WEBCHU"
             android:textColor="#FFffffff"
             android:id="@+id/Project_title"
             android:layout_centerHorizontal="true"
@@ -74,13 +74,39 @@
     </RelativeLayout>
 
 
-    <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_marginTop="15dp"
         android:layout_below="@id/topbar"
-        android:id="@+id/main_viewpager"
-        android:layout_height="230dp"
-        ></cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager>
+        android:id="@+id/main_FrameLayout"
+        android:layout_above="@id/bottombar"
+        android:layout_height="wrap_content"
+        ></FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/bottombar"
+        android:padding="5dp">
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="50dp"
+            android:src="@drawable/ic_person_black_24dp"
+            android:onClick="FrHome"
+            android:background="@null"/>
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="FrCotent"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_label_outline_black_24dp"
+            android:background="@null"/>
+    </RelativeLayout>
+
 
 
 

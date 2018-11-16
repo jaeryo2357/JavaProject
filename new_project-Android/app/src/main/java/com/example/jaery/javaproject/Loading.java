@@ -46,7 +46,7 @@ public class Loading extends AppCompatActivity {
                 }, 1300);// 3.5초 정도 딜레이를 준 후 시작
 
             }
-        }, 3900);// 3.5초 정도 딜레이를 준 후 시작
+        }, 2500);// 3.5초 정도 딜레이를 준 후 시작
     }
 
     private void initView() {

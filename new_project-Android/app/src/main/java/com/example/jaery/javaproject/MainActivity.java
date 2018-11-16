@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,18 +26,15 @@ import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
-    AutoScrollViewPager autoViewPager;
+    MainFragment mainFragment;
+    WebToonContentFragment webToonContentFragment;
     EditText editText;
     boolean express = false;
+    FragmentManager fm;
+    FragmentTransaction fragmentTransaction;
     View view;
-
-    /*
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<WebToonItem> myDataset;
-
-    */
+    private boolean isFragmentA=true;
+    private boolean isFragmentB=false;
     DBOpenHelper mydb;
 
     @Override
@@ -49,22 +49,11 @@ public class MainActivity extends AppCompatActivity {
         editText = findViewById(R.id.search_webtoon);
         view = findViewById(R.id.inflate);
 ////// View pager
-
-
-        ArrayList<Integer> data = new ArrayList<>(); //이미지 url를 저장하는 arraylist
-        data.add(R.drawable.main_image1);
-        data.add(R.drawable.main_image2);
-
-
-        autoViewPager = (AutoScrollViewPager)findViewById(R.id.main_viewpager);
-        AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(this, data);
-        autoViewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
-        autoViewPager.setInterval(5000); // 페이지 넘어갈 시간 간격 설정
-        autoViewPager.startAutoScroll(); //Auto Scroll 시작
-
-
-
-
+        mainFragment=new MainFragment();
+        fm=getSupportFragmentManager();
+        fragmentTransaction=fm.beginTransaction();
+        fragmentTransaction.add(R.id.main_FrameLayout,mainFragment);
+        fragmentTransaction.commit();
 
 
         ///////////////
@@ -112,6 +101,17 @@ public class MainActivity extends AppCompatActivity {
                     });
                     animator.setDuration(300);
                     animator.start();
+
+                    editText.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            editText.setFocusableInTouchMode(true);
+                            editText.requestFocus();
+                            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.showSoftInput(editText, 0);
+
+                        }
+                    });
                 }
             }
         });
@@ -136,43 +136,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-/*
-        mRecyclerView = (RecyclerView)
-                findViewById(R.id.recycle);
-        mLayoutManager = new
-                LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        myDataset = new ArrayList<>();
-        mAdapter = new
-                CardViewAdapter(myDataset);
-        mRecyclerView.setAdapter(mAdapter);
-
-        myDataset.add(new
-
-                WebToonItem(R.layout.webtoon_list_item, "신과함께1", "작가1", "2018.10.2", BitmapFactory.decodeResource(getResources(), R.drawable.webtoon_test)));
-        myDataset.add(new
-
-                WebToonItem(R.layout.webtoon_list_item, "신과함께1", "작가1", "2018.10.2", BitmapFactory.decodeResource(getResources(), R.drawable.webtoon_test)));
-
-        myDataset.add(new
-
-                WebToonItem(R.layout.webtoon_list_item, "신과함께1", "작가1", "2018.10.2", BitmapFactory.decodeResource(getResources(), R.drawable.webtoon_test)));
-
-        mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Toast.makeText(getApplicationContext(), position + "번 째 아이템 클릭", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onLongItemClick(View view, int position) {
-                //  Toast.makeText(getApplicationContext(), position + "번 째 아이템 롱 클릭", Toast.LENGTH_SHORT).show();
-
-            }
-        }));
-*/
 
     }
+
+
+   public void FrCotent(View v)
+   {
+       if(isFragmentA)
+       {    isFragmentB=true;
+            isFragmentA=false;
+            webToonContentFragment=new WebToonContentFragment();
+           fm=getSupportFragmentManager();
+           fragmentTransaction=fm.beginTransaction();
+           fragmentTransaction.remove(mainFragment);
+           fragmentTransaction.add(R.id.main_FrameLayout,webToonContentFragment);
+           fragmentTransaction.commit();
+
+       }
+   }
+
+   public void FrHome(View view)
+   {
+       if(isFragmentB)
+       {
+           isFragmentA=true;
+           isFragmentB=false;
+           mainFragment=new MainFragment();
+           fm=getSupportFragmentManager();
+           fragmentTransaction=fm.beginTransaction();
+           fragmentTransaction.remove(webToonContentFragment);
+           fragmentTransaction.add(R.id.main_FrameLayout,mainFragment);
+           fragmentTransaction.commit();
+       }
+   }
+
 
     public void gotoMypage(View v)
     {
