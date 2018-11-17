@@ -93,7 +93,8 @@
         <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginLeft="50dp"
+            android:id="@+id/main_B_home"
+            android:layout_marginLeft="45dp"
             android:src="@drawable/ic_person_black_24dp"
             android:onClick="FrHome"
             android:background="@null"/>
@@ -102,6 +103,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:onClick="FrCotent"
+            android:id="@+id/main_B_Content"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ic_label_outline_black_24dp"
             android:background="@null"/>

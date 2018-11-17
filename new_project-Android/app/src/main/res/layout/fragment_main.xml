@@ -37,6 +37,12 @@
                 android:layout_margin="10dp"
                 android:text="새 소식"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                 />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/NewWRecycle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                ></android.support.v7.widget.RecyclerView>
+
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
