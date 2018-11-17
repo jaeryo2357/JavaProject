@@ -76,7 +76,6 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="15dp"
         android:layout_below="@id/topbar"
         android:id="@+id/main_FrameLayout"
         android:layout_above="@id/bottombar"
