@@ -1,14 +1,22 @@
 package com.example.jaery.javaproject;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class NewRegister extends AppCompatActivity {
 
@@ -19,7 +27,8 @@ public class NewRegister extends AppCompatActivity {
     EditText pwd2;
     Button b;
     DBOpenHelper db;
-
+    GetJson js;
+    ProgressDialog loading;
     Boolean nameCheck=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,21 @@ public class NewRegister extends AppCompatActivity {
          b=findViewById(R.id.Newregister_login);
         db=new DBOpenHelper(this);
         db.open();
+        final Callback callback = new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("nr", "콜백오류:" + e.getMessage());
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String body = response.body().string();
+                Log.d("nr", "서버에서 응답한 Body:" + body);
+                if(loading!=null)
+                    loading.dismiss();
+            }
+        };
         pwd2.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -88,7 +112,14 @@ public class NewRegister extends AppCompatActivity {
                     return;
                 }else {
                     if (p1.equals(p2)) {
-                        //URL 통신으로 회원가입
+                        new Thread() {
+                            public void run() {
+                            // 파라미터 2개와 미리정의해논 콜백함수를 매개변수로 전달하여 호출
+                                js.requestWebServer( callback,"NewRegister.php","ID="+id.getText().toString(),
+                                        "PWD="+pwd.getText().toString(),"NAME="+name.getText().toString());
+                                loading = ProgressDialog.show(NewRegister.this, "Register...", null, true, true);
+                            }
+                        }.start();
 
                     } else {
                         Toast.makeText(NewRegister.this, "비밀번호 2차를 다시 입력해주세요", Toast.LENGTH_LONG).show();
@@ -96,5 +127,9 @@ public class NewRegister extends AppCompatActivity {
                 }
             }
         });
+
+
     }
+
+
 }
