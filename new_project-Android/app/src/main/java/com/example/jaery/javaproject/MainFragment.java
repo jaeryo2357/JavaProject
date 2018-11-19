@@ -1,5 +1,6 @@
 package com.example.jaery.javaproject;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -29,10 +30,33 @@ public class MainFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager_New;
     private ArrayList<WebToonItem> myDataset;
     private ArrayList<WebToonItem> myDataset_New;
-
+    Bitmap b3;
+    Bitmap b2;
+    Bitmap b;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        b=BitmapFactory.decodeResource(getResources(), R.drawable.web1);
+        b2=BitmapFactory.decodeResource(getResources(), R.drawable.web2);
+        b3=BitmapFactory.decodeResource(getResources(), R.drawable.web3);
+    }
+
+    @Override
+    public void onDestroyView() {
+
+        if(b.isRecycled()) {
+            b.recycle();
+            b=null;
+        }
+        if(b2.isRecycled()) {
+            b2.recycle();
+            b2=null;
+        }
+        if(b3.isRecycled()) {
+            b3.recycle();
+            b3=null;
+        }
+        super.onDestroyView();
     }
 
     @Nullable
@@ -42,7 +66,8 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
 
-        ArrayList<Integer> data = new ArrayList<>(); //이미지 url를 저장하는 arraylist
+        ArrayList<Integer> data = new ArrayList<>();//이미지 url를 저장하는 arraylist
+
         data.add(R.drawable.web1);
         data.add(R.drawable.web2);
         data.add(R.drawable.web3);
@@ -85,9 +110,17 @@ public class MainFragment extends Fragment {
         });
 
         mRecyclerView.setAdapter(mAdapter);
-        myDataset.add(new WebToonItem(0, "신과함께1", "작가1", "2018.10.2", BitmapFactory.decodeResource(getResources(), R.drawable.web1)));
-        myDataset.add(new WebToonItem(0, "신과함께1", "작가1", "2018.10.2", BitmapFactory.decodeResource(getResources(), R.drawable.web2)));
-        myDataset.add(new WebToonItem(0, "신과함께1", "작가1", "2018.10.2", BitmapFactory.decodeResource(getResources(), R.drawable.web3)));
+
+        myDataset.add(new WebToonItem(0, "신과함께1", "작가1", "2018.10.2",b));
+
+
+        myDataset.add(new WebToonItem(0, "신과함께1", "작가2", "2018.10.2",b2));
+
+
+
+        myDataset.add(new WebToonItem(0, "신과함께1", "작가3", "2018.10.2",b3));
+
+
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -98,15 +131,22 @@ public class MainFragment extends Fragment {
                 //  Toast.makeText(getApplicationContext(), position + "번 째 아이템 롱 클릭", Toast.LENGTH_SHORT).show();
             }
         }));
-
         mRecyclerView_New.setAdapter(mAdapter_New);
-        myDataset_New.add(new WebToonItem(0, "신과함께1", "작가1", "2018.10.2", BitmapFactory.decodeResource(getResources(), R.drawable.web1)));
-        myDataset_New.add(new WebToonItem(0, "신과함께1", "작가1", "2018.10.2", BitmapFactory.decodeResource(getResources(), R.drawable.web2)));
-        myDataset_New.add(new WebToonItem(0, "신과함께1", "작가1", "2018.10.2", BitmapFactory.decodeResource(getResources(), R.drawable.web3)));
+
+        myDataset_New.add(new WebToonItem(0, "신과함께1", "작가1", "2018.10.2",b));
+
+
+        myDataset_New.add(new WebToonItem(0, "신과함께1", "작가2", "2018.10.2",b2));
+
+
+        myDataset_New.add(new WebToonItem(0, "신과함께1", "작가3", "2018.10.2",b3));
+
         mRecyclerView_New.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView_New, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(), position + "번 째 아이템 클릭", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), position + "번" +
+                        "" +
+                        " 째 아이템 클릭", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onLongItemClick(View view, int position) {
