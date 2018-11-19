@@ -1,6 +1,8 @@
 package com.example.jaery.javaproject;
 
 import android.app.ProgressDialog;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -54,8 +56,16 @@ public class NewRegister extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 String body = response.body().string();
                 Log.d("nr", "서버에서 응답한 Body:" + body);
-                if(loading!=null)
-                    loading.dismiss();
+
+                Handler handler = new Handler(Looper.getMainLooper());
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(loading!=null)
+                            loading.dismiss();
+                    }
+                });
             }
         };
         pwd2.addTextChangedListener(new TextWatcher() {
