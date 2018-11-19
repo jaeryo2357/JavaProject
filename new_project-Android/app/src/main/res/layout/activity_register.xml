@@ -61,9 +61,25 @@
         android:textStyle="bold"
         android:textSize="16sp"
         android:id="@+id/register_login"
-        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="70dp"
         android:layout_marginTop="30dp"
         android:layout_below="@id/register_pwd"
-        android:text="Login"
+        android:text="로그인"
+        />
+
+    <Button
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round_background_v2"
+        android:textColor="#ffffff"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:id="@+id/register_Newregister"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="70dp"
+        android:layout_below="@id/register_pwd"
+        android:text="등록"
         />
 </RelativeLayout>

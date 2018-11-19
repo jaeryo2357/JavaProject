@@ -1,6 +1,7 @@
 package com.example.jaery.javaproject;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ public class Register extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         Button button=findViewById(R.id.register_login);
+        Button button_register=findViewById(R.id.register_Newregister);
         mydb=new DBOpenHelper(this);
         mydb.open();
         button.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +49,7 @@ public class Register extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     auto = 2;
                                     mydb.insert(auto,ID,pwd);
+                                    finish();
                                 }
                             })
                             .setNegativeButton("다음에", new DialogInterface.OnClickListener() {
@@ -54,11 +57,20 @@ public class Register extends AppCompatActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     auto = 1;
                                     mydb.insert(auto,ID,pwd);
+                                    finish();
                                 }
                             })
                             .setCancelable(false)
                             .show();
                 }
+            }
+        });
+
+        button_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Register.this,NewRegister.class);
+                startActivity(intent);
             }
         });
 
