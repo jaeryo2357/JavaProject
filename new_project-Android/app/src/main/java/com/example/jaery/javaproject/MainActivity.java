@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -151,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
            fragmentTransaction.remove(mainFragment);
            fragmentTransaction.add(R.id.main_FrameLayout,webToonContentFragment);
            fragmentTransaction.commit();
+           ImageButton b=findViewById(R.id.main_B_home);
+          b.setImageResource(R.drawable.ic_person_outline_black_24dp);
+           b=findViewById(R.id.main_B_Content);
+           b.setImageResource(R.drawable.ic_label_black_24dp);
 
        }
    }
@@ -167,6 +172,11 @@ public class MainActivity extends AppCompatActivity {
            fragmentTransaction.remove(webToonContentFragment);
            fragmentTransaction.add(R.id.main_FrameLayout,mainFragment);
            fragmentTransaction.commit();
+
+           ImageButton b=findViewById(R.id.main_B_home);
+           b.setImageResource(R.drawable.ic_person_black_24dp);
+           b=findViewById(R.id.main_B_Content);
+          b.setImageResource(R.drawable.ic_label_outline_black_24dp);
        }
    }
 

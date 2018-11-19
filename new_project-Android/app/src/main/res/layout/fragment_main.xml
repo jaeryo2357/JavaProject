@@ -21,6 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
+                android:layout_marginLeft="10dp"
                 android:text="이달의 추천 웹툰"
                 android:textSize="18sp" />
 
@@ -36,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:text="새 소식"
+                android:layout_marginLeft="10dp"
                 android:textSize="18sp"
                  />
             <android.support.v7.widget.RecyclerView
