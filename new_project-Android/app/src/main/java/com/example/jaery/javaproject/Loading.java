@@ -22,6 +22,8 @@ public class Loading extends AppCompatActivity {
 
         if(mydb.findauto()==1)
             mydb.UpdateAuto(0);
+
+
         initView();
 
         new Handler().postDelayed(new Runnable()

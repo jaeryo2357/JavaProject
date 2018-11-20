@@ -8,11 +8,15 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -28,15 +32,17 @@ public class NewRegister extends AppCompatActivity {
     EditText pwd;
     EditText pwd2;
     Button b;
+    Button b2;
     DBOpenHelper db;
     GetJson js;
     ProgressDialog loading;
     Boolean nameCheck=null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_register);
-
+         b2=findViewById(R.id.Newregister_NameCheck);
          re_err=findViewById(R.id.Newregister_pwderror);
          id=findViewById(R.id.Newregister_ID);
         name=findViewById(R.id.Newregister_Name);
@@ -45,29 +51,30 @@ public class NewRegister extends AppCompatActivity {
          b=findViewById(R.id.Newregister_login);
         db=new DBOpenHelper(this);
         db.open();
-        final Callback callback = new Callback() {
+        js=GetJson.getInstance();
 
+
+
+
+        b2.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                Log.d("nr", "콜백오류:" + e.getMessage());
+            public void onClick(View v) {
+              if(!name.getText().toString().equals("")) {
+                  new Thread() {
+                      public void run() {
+                          // 파라미터 2개와 미리정의해논 콜백함수를 매개변수로 전달하여 호출
+                          js.requestWebServer(callback2, "NameCheck.php", "NAME=" + name.getText().toString());
+
+                      }
+                  }.start();
+              }else
+              {
+                  Toast t=Toast.makeText(NewRegister.this,"Name을 입력해주세요",Toast.LENGTH_LONG);
+                  t.setGravity(Gravity.CENTER,0,40);
+                  t.show();
+              }
             }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String body = response.body().string();
-                Log.d("nr", "서버에서 응답한 Body:" + body);
-
-                Handler handler = new Handler(Looper.getMainLooper());
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(loading!=null)
-                            loading.dismiss();
-                    }
-                });
-            }
-        };
+        });
         pwd2.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -122,12 +129,14 @@ public class NewRegister extends AppCompatActivity {
                     return;
                 }else {
                     if (p1.equals(p2)) {
+                        loading = ProgressDialog.show(NewRegister.this, "Register...", null, true, true);
                         new Thread() {
                             public void run() {
                             // 파라미터 2개와 미리정의해논 콜백함수를 매개변수로 전달하여 호출
+
                                 js.requestWebServer( callback,"NewRegister.php","ID="+id.getText().toString(),
                                         "PWD="+pwd.getText().toString(),"NAME="+name.getText().toString());
-                                loading = ProgressDialog.show(NewRegister.this, "Register...", null, true, true);
+
                             }
                         }.start();
 
@@ -141,5 +150,86 @@ public class NewRegister extends AppCompatActivity {
 
     }
 
+    private final Callback callback2 = new Callback() {
 
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("nr", "콜백오류:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String body = response.body().string();
+            Log.d("nr", "서버에서 응답한 Body:" + body);
+            Handler handler = new Handler(Looper.getMainLooper());
+            try {
+                JSONObject data=new JSONObject(body);
+                if(data.getString("result").equals("true")) {
+                    nameCheck=true;
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast t=Toast.makeText(NewRegister.this,"사용가능합니다.",Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER,0,40);
+                            t.show();
+
+                        }
+                    });
+                }else
+                {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast t=Toast.makeText(NewRegister.this,"Name이 중복됩니다..",Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER,0,40);
+                            t.show();
+                            name.setText("");
+                        }
+                    });
+
+                    nameCheck=false;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    private final Callback callback = new Callback() {
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("nr", "콜백오류:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String body = response.body().string();
+            Log.d("nr", "서버에서 응답한 Body:" + body);
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            if(loading!=null)
+                loading.dismiss();
+            try {
+                JSONObject data=new JSONObject(body);
+                if(data.getString("result").equals("100")) {
+                    finish();
+                    db.insert(0,id.getText().toString(),pwd.getText().toString());
+
+                }else if(data.getString("result").equals("10"))
+                {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast t=Toast.makeText(NewRegister.this,"ID가 중복됩니다..",Toast.LENGTH_LONG);
+                            t.setGravity(Gravity.CENTER,0,40);
+                            t.show();
+                        }
+                    });
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 }

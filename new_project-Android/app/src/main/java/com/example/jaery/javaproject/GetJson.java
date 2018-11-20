@@ -21,19 +21,18 @@ public class GetJson {
     /** 웹 서버로 요청을 한다. */
     public void requestWebServer(Callback callback,String php,String... param) {
 
-        url += php + "?" + param[0];
+        String purl = url+ php + "?" + param[0];
 
         for (int i = 1; i < param.length; i++) {
-            url += "&";
-            url += param[i];
+            purl += "&";
+            purl += param[i];
         }
 
 
         RequestBody body = new FormBody.Builder()
-
                 .build();
         Request request = new Request.Builder()
-                .url( url)
+                .url( purl)
                 .post(body)//받은 데이터
                 .build();
         client.newCall(request).enqueue(callback); //통신후 콜백될 함수

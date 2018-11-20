@@ -25,5 +25,5 @@
         <activity android:name=".Register" />
         <activity android:name=".NewRegister"></activity>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

@@ -37,7 +37,7 @@
 
     <Button
         android:layout_width="90dp"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:id="@+id/Newregister_NameCheck"
         android:layout_alignTop="@id/Newregister_Name"
         android:layout_alignParentRight="true"

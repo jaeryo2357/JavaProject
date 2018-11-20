@@ -12,7 +12,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBOpenHelper {
 
-    private static final String DATABASE_NAME = "Log.db";
+    private static final String DATABASE_NAME = "member.db";
     private static final int DATABASE_VERSION = 1;
     public static SQLiteDatabase mDB;
     private DatabaseHelper mDBHelper;
@@ -29,7 +29,7 @@ public class DBOpenHelper {
         // 최초 DB를 만들때 한번만 호출된다.
         @Override
         public void onCreate(SQLiteDatabase db) {
-            db.execSQL("CREATE TABLE Log (CHAP INTEGER PRIMARY KEY, IND INTEGER);");
+            db.execSQL(Database.CreateDB._CREATE);
 
         }
 
@@ -48,7 +48,7 @@ public class DBOpenHelper {
     }
 
     public String findID(){
-        Cursor cursor= mDB.rawQuery("select * from Log",null);
+        Cursor cursor= mDB.rawQuery("select * from "+Database.CreateDB._TABLENAME,null);
 
         while(cursor.moveToNext()){
             return cursor.getString(2);
@@ -57,7 +57,7 @@ public class DBOpenHelper {
     }
 
     public String findPWD(){
-        Cursor cursor= mDB.rawQuery("select * from Log",null);
+        Cursor cursor= mDB.rawQuery("select * from "+Database.CreateDB._TABLENAME,null);
 
         while(cursor.moveToNext()){
             return cursor.getString(3);
@@ -67,7 +67,7 @@ public class DBOpenHelper {
 
     public int findauto()
     {
-        Cursor cursor= mDB.rawQuery("select * from Log",null);
+        Cursor cursor= mDB.rawQuery("select * from "+Database.CreateDB._TABLENAME,null);
 
         while(cursor.moveToNext()){
                 return cursor.getInt(1);
@@ -76,23 +76,23 @@ public class DBOpenHelper {
     }
 
     public int getCount(){
-        Cursor cursor= mDB.rawQuery("select * from Log",null);
+        Cursor cursor= mDB.rawQuery("select * from "+Database.CreateDB._TABLENAME,null);
         return cursor.getCount();
     }
 
     public void insert(int auto,String ID,String pwd)
     {
         if(getCount()==0)
-        mDB.execSQL("INSERT INTO Log " + "VALUES ("+0+","+auto+",'"+ID+"','"+pwd+"');");
+        mDB.execSQL("INSERT INTO "+Database.CreateDB._TABLENAME + " VALUES ("+0+","+auto+",'"+ID+"','"+pwd+"');");
         else{
-            mDB.execSQL("UPDATE Log set auto="+auto+", ID='"+ID+"', PWD='"+pwd+"';");
+            mDB.execSQL("UPDATE "+Database.CreateDB._TABLENAME+" set auto="+auto+", ID='"+ID+"', PWD='"+pwd+"';");
         }
     }
 
     public boolean UpdateAuto(int auto) //성공하면 true
     {
 
-        mDB.execSQL("UPDATE Log set auto="+auto+";");
+        mDB.execSQL("UPDATE "+Database.CreateDB._TABLENAME+" set auto="+auto+";");
 
         if(findauto()==auto)
             return true;
@@ -107,7 +107,9 @@ public class DBOpenHelper {
         mDB = mDBHelper.getWritableDatabase();
         return this;
     }
-
+    public void clear(){
+        mDB.execSQL("delete from "+Database.CreateDB._TABLENAME);
+    }
     public void close(){
         mDB.close();
     }
