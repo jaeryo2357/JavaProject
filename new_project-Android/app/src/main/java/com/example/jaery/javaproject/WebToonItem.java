@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 public class WebToonItem {
 
-    public WebToonItem(int Type,String title, String byname, String release,Bitmap Image)
+    public WebToonItem(int Type,int ID,String Genre,String title, String byname, String release,Bitmap Image)
     {
 
         this.Type=Type;
@@ -60,7 +60,8 @@ public class WebToonItem {
 
 
 
-
+    private  String Genre;
+    private int ID;
     private String Title;
     int Type;
     private String byname;
