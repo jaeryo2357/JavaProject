@@ -154,7 +154,7 @@ public class WebToonContentFragment extends Fragment {
                     InputStream is = conn.getInputStream();
 
                     webtoon.add(new WebToonItem(2, data.getInt("ID"), data.getString("Genre"), data.getString("Title"),
-                            data.getString("ByName"), "", BitmapFactory.decodeStream(is)));
+                            data.getString("ByName"), "",data.getString("BIG_IMAGE"),data.getString("SMALL_IMAGE"), BitmapFactory.decodeStream(is)));
 
                     handler.post(new Runnable() {
                         @Override

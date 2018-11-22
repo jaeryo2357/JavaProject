@@ -138,7 +138,7 @@ public class MainFragment extends Fragment {
         });
 
         mRecyclerView.setAdapter(mAdapter);
-
+/*
         myDataset.add(new WebToonItem(0,0,"", "신과함께1", "작가1", "2018.10.2",b));
 
 
@@ -148,7 +148,7 @@ public class MainFragment extends Fragment {
 
         myDataset.add(new WebToonItem(0,0,"", "신과함께1", "작가3", "2018.10.2",b3));
 
-
+*/
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -160,7 +160,7 @@ public class MainFragment extends Fragment {
             }
         }));
         mRecyclerView_New.setAdapter(mAdapter_New);
-
+/*
         myDataset_New.add(new WebToonItem(0, 0,"","신과함께1", "작가1", "2018.10.2",b));
 
 
@@ -168,7 +168,7 @@ public class MainFragment extends Fragment {
 
 
         myDataset_New.add(new WebToonItem(0, 0,"","신과함께1", "작가3", "2018.10.2",b3));
-
+*/
         mRecyclerView_New.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView_New, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
