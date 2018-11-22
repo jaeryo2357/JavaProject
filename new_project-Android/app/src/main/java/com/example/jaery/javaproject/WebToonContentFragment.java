@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,10 +20,14 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -34,9 +39,13 @@ import okhttp3.Response;
 public class WebToonContentFragment extends Fragment {
 
     private ArrayList<String> genre;
+    private ArrayList<WebToonItem> webtoon;
     private RecyclerView mRecyclerView_genre;
+    private RecyclerView mRecyclerView_Webtoon;
     private WebtoonAdapter mAdapter_genre;
+    private WebtoonAdapter mAdapter_Webtoon;
     private RecyclerView.LayoutManager mLayoutManager_genre;
+    private RecyclerView.LayoutManager mLayoutManager_Webtoon;
     ProgressDialog loading;
     GetJson json;
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,11 +57,13 @@ public class WebToonContentFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view=inflater.inflate(R.layout.fragment_webtoon,container,false);
+        webtoon=new ArrayList<>();
         json=GetJson.getInstance();
         final String[] genre_string=new String[]{"드라마","일상","스릴러","액션","SF","스포츠","슬픔"};
         genre=new ArrayList<>();
         genre.addAll(Arrays.asList(genre_string));
         mRecyclerView_genre=view.findViewById(R.id.Genre_recycle);
+        mRecyclerView_Webtoon=view.findViewById(R.id.Webtoon_recycle);
         mAdapter_genre= new WebtoonAdapter(genre,getActivity(),new WebtoonAdapter.ButtonClickListener() {
             @Override
             public void ContentOnClick(View v, int position) {
@@ -63,20 +74,26 @@ public class WebToonContentFragment extends Fragment {
         },new boolean[]{true,false,false,false,false,false,false});
         mLayoutManager_genre = new LinearLayoutManager(getActivity());
         ((LinearLayoutManager) mLayoutManager_genre).setOrientation(LinearLayout.HORIZONTAL);
+        mLayoutManager_Webtoon=new GridLayoutManager(getActivity(),3);
         mRecyclerView_genre.setLayoutManager(mLayoutManager_genre);
+        mRecyclerView_Webtoon.setLayoutManager(mLayoutManager_Webtoon);
+        mAdapter_Webtoon=new WebtoonAdapter(webtoon,getActivity(),null);
+        mRecyclerView_Webtoon.setAdapter(mAdapter_Webtoon);
         mRecyclerView_genre.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView_genre, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, final int position) {
+            public void onItemClick(View view, int position) {
                 boolean[] check=new boolean[]{false,false,false,false,false,false,false};
                 check[position]=true;
+                final int p=position;
                 mAdapter_genre=new WebtoonAdapter(Arrays.asList(genre_string),getActivity(),null,check);
                 mRecyclerView_genre.setAdapter(mAdapter_genre);
-                loading=ProgressDialog.show(getActivity(), "Register...", null, true, true);;
+                webtoon.clear();
+                loading=ProgressDialog.show(getActivity(), "Wait...", null, true, true);
                 new Thread()
                 {
                     @Override
                     public void run() {
-                        json.requestWebServer(callback,"AllWebtoon.php","Genre="+genre_string[position]);
+                        json.requestWebServer(callback,"AllWebtoon.php","Genre="+genre_string[p]);
                     }
                 }.start();
             }
@@ -86,6 +103,15 @@ public class WebToonContentFragment extends Fragment {
             }
         }));
         mRecyclerView_genre.setAdapter(mAdapter_genre);
+        loading=ProgressDialog.show(getActivity(), "Wait...", null, true, true);
+        new Thread()
+        {
+            @Override
+            public void run() {
+                json.requestWebServer(callback,"AllWebtoon.php","ID="+genre_string[0]);
+            }
+        }.start();
+
         return view;
     }
 
@@ -98,7 +124,7 @@ public class WebToonContentFragment extends Fragment {
 
         @Override
         public void onResponse(Call call, Response response) throws IOException {
-            String body = response.body().string();
+           String body = response.body().string();
             Log.d("webtoon", "서버에서 응답한 Body:" + body);
 
             Handler handler = new Handler(Looper.getMainLooper());
@@ -106,15 +132,35 @@ public class WebToonContentFragment extends Fragment {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
+                    if (loading!=null)
                     loading.dismiss();
                 }
             });
 
             try {
-                JSONObject data=new JSONObject(body);
+                JSONArray dataarr=new JSONArray(body);
 
+                for(int i=0;i<dataarr.length();i++) {
+                    JSONObject data=dataarr.getJSONObject(i);
 
+                    URL url = new URL(data.getString("small_image").replace("\\", ""));
 
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+
+                    webtoon.add(new WebToonItem(2, data.getInt("ID"), data.getString("Genre"), data.getString("Title"),
+                            data.getString("ByName"), "", BitmapFactory.decodeStream(is)));
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter_Webtoon.notifyDataSetChanged();
+                        }
+                    });
+
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

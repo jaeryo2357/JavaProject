@@ -1,17 +1,14 @@
 <?php
-header('Content-Type: text/html; charset=UTF8');
- 	$Genre=$_Get['Genre'];
 
-
+ 	$GEN=$_GET['ID'];
 
 	require_once('dbConnect.php');
 
 
-
-  if(strcmp($Genre,"All"))
+  if(!strcmp($GEN,"All"))
      $sql="SELECT * from Webtoon ";
   else  
-	 $sql="SELECT * from Webtoon where Genre = '$Genre'";
+	 $sql="SELECT * from Webtoon where GENRE = '$GEN'";
 
 	
  	$res = mysqli_query($con,$sql);

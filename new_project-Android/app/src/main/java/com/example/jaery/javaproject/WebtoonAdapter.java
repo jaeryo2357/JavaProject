@@ -68,6 +68,10 @@ class WebtoonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 View v2=inflater.inflate(R.layout.genre_layout,viewGroup,false);
                 viewHolder=new GenreViewHolder(v2);
                 break;
+            case 2:
+                View v3=inflater.inflate(R.layout.content_cardview,viewGroup,false);
+                viewHolder=new ContentViewHolder(v3);
+                break;
         }
         return viewHolder;
     }
@@ -83,7 +87,10 @@ class WebtoonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 GenreViewHolder vh2=(GenreViewHolder)viewHolder;
                 configureGenre_ViewHolder(vh2,position);
                 break;
-
+            case 2:
+                ContentViewHolder vh3=(ContentViewHolder)viewHolder;
+                configureContent_ViewHolder(vh3,position);
+                break;
 
         }
     }
@@ -130,6 +137,15 @@ class WebtoonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
           vh1.genre.setTextColor(Color.rgb(83,117,226));
       }
     }
+
+    private void configureContent_ViewHolder(ContentViewHolder vh1, int position) {
+        vh1.Title.setText(mDataset.get(position).getTitle());
+        vh1.smallImage.setImageBitmap(mDataset.get(position).getIcon());
+        vh1.byname.setText(mDataset.get(position).getByname());
+
+
+    }
+
 
 }
 
