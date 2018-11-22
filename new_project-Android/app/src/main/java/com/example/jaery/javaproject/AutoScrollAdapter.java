@@ -1,6 +1,7 @@
 package com.example.jaery.javaproject;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,9 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 public class AutoScrollAdapter extends PagerAdapter {
 
     Context context;
-    ArrayList<Integer> data;
+    ArrayList<Bitmap> data;
 
-    public AutoScrollAdapter(Context context, ArrayList<Integer> data) {
+    public AutoScrollAdapter(Context context, ArrayList<Bitmap> data) {
         this.context = context;
         this.data = data;
     }
@@ -38,7 +39,7 @@ public class AutoScrollAdapter extends PagerAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
         View v = inflater.inflate(R.layout.auto_viewpager,null);
         ImageView image_container = (ImageView) v.findViewById(R.id.image_container);
-        Glide.with(context).load(data.get(position)).into(image_container);
+        image_container.setImageBitmap(data.get(position));
         container.addView(v);
         return v;
     }

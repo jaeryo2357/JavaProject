@@ -1,23 +1,38 @@
 package com.example.jaery.javaproject;
 
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class MainFragment extends Fragment {
 
@@ -30,15 +45,20 @@ public class MainFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager_New;
     private ArrayList<WebToonItem> myDataset;
     private ArrayList<WebToonItem> myDataset_New;
+    ArrayList<Bitmap> MainNews;
+    private ProgressDialog loading;
     Bitmap b3;
     Bitmap b2;
     Bitmap b;
+    GetJson json;
+    AutoScrollAdapter scrollAdapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         b=BitmapFactory.decodeResource(getResources(), R.drawable.web1);
         b2=BitmapFactory.decodeResource(getResources(), R.drawable.web2);
         b3=BitmapFactory.decodeResource(getResources(), R.drawable.web3);
+        json=GetJson.getInstance();
     }
 
     @Override
@@ -66,19 +86,27 @@ public class MainFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
 
 
-        ArrayList<Integer> data = new ArrayList<>();//이미지 url를 저장하는 arraylist
+        MainNews = new ArrayList<>();//이미지 url를 저장하는 arraylist
 
+        /*
         data.add(R.drawable.web1);
         data.add(R.drawable.web2);
         data.add(R.drawable.web3);
 
-
+*/
         autoViewPager = (AutoScrollViewPager) view.findViewById(R.id.main_viewpager);
-        AutoScrollAdapter scrollAdapter = new AutoScrollAdapter(getActivity(), data);
+        scrollAdapter = new AutoScrollAdapter(getActivity(), MainNews);
         autoViewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
         autoViewPager.setInterval(5000); // 페이지 넘어갈 시간 간격 설정
         autoViewPager.startAutoScroll(); //Auto Scroll 시작
-
+        loading=ProgressDialog.show(getActivity(), "Wait...", null, true, true);
+        new Thread()
+        {
+            @Override
+            public void run() {
+                json.requestWebServer(callback,"mainNews.php");
+            }
+        }.start();
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.RecomendRecycle);
         mRecyclerView_New=view.findViewById(R.id.NewWRecycle);
@@ -156,4 +184,54 @@ public class MainFragment extends Fragment {
 
         return view;
     }
+    private final Callback callback = new Callback() {
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("webtoon", "콜백오류:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String body = response.body().string();
+            Log.d("webtoon", "서버에서 응답한 Body:" + body);
+
+            Handler handler = new Handler(Looper.getMainLooper());
+
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (loading!=null)
+                        loading.dismiss();
+                }
+            });
+
+            try {
+                JSONArray dataarr=new JSONArray(body);
+
+                for(int i=0;i<dataarr.length();i++) {
+                    JSONObject data=dataarr.getJSONObject(i);
+
+                    URL url = new URL(data.getString("image").replace("\\", ""));
+
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+
+                    MainNews.add(BitmapFactory.decodeStream(is));
+
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            scrollAdapter.notifyDataSetChanged();
+                        }
+                    });
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 }
