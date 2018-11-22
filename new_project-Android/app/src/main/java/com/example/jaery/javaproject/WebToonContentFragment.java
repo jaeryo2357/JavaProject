@@ -47,6 +47,8 @@ public class WebToonContentFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager_genre;
     private RecyclerView.LayoutManager mLayoutManager_Webtoon;
     ProgressDialog loading;
+    String[] genre_string;
+    int position;
     GetJson json;
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +60,9 @@ public class WebToonContentFragment extends Fragment {
 
         View view=inflater.inflate(R.layout.fragment_webtoon,container,false);
         webtoon=new ArrayList<>();
+        position=0;
         json=GetJson.getInstance();
-        final String[] genre_string=new String[]{"드라마","일상","스릴러","액션","SF","스포츠","슬픔"};
+        genre_string=new String[]{"드라마","일상","스릴러","액션","SF","스포츠","슬픔"};
         genre=new ArrayList<>();
         genre.addAll(Arrays.asList(genre_string));
         mRecyclerView_genre=view.findViewById(R.id.Genre_recycle);
@@ -81,19 +84,19 @@ public class WebToonContentFragment extends Fragment {
         mRecyclerView_Webtoon.setAdapter(mAdapter_Webtoon);
         mRecyclerView_genre.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView_genre, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
+            public void onItemClick(View view, final int position) {
                 boolean[] check=new boolean[]{false,false,false,false,false,false,false};
                 check[position]=true;
-                final int p=position;
                 mAdapter_genre=new WebtoonAdapter(Arrays.asList(genre_string),getActivity(),null,check);
                 mRecyclerView_genre.setAdapter(mAdapter_genre);
                 webtoon.clear();
+                mAdapter_Webtoon.notifyDataSetChanged();
                 loading=ProgressDialog.show(getActivity(), "Wait...", null, true, true);
                 new Thread()
                 {
                     @Override
                     public void run() {
-                        json.requestWebServer(callback,"AllWebtoon.php","Genre="+genre_string[p]);
+                        json.requestWebServer(callback,"AllWebtoon.php","ID="+genre_string[position]);
                     }
                 }.start();
             }
@@ -108,7 +111,7 @@ public class WebToonContentFragment extends Fragment {
         {
             @Override
             public void run() {
-                json.requestWebServer(callback,"AllWebtoon.php","ID="+genre_string[0]);
+                json.requestWebServer(callback,"AllWebtoon.php","ID="+genre_string[position]);
             }
         }.start();
 
