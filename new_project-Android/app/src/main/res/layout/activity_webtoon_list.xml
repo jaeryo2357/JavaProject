@@ -6,46 +6,65 @@
     android:layout_height="match_parent"
     tools:context=".WebtoonList">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/webtoon_list_topbar"
-        android:background="@drawable/stroke">
+    <ImageButton
+        android:id="@+id/List_Back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="20dp"
 
-        <Button
-            android:layout_width="40dp"
-            android:layout_height="50dp"
-            android:id="@+id/webtoon_list_before"
-            android:background="@drawable/ic_navigate_before_black_24dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="노블레스"
-            android:id="@+id/webtoon_list_Title"
-            android:textSize="23sp"
-            android:textStyle="bold"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/webtoon_list_before"
-            />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="첫회보기"
-            android:background="@null"
-            android:textSize="17sp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_margin="3dp"/>
-    </RelativeLayout>
-
+        android:background="@drawable/round_background_v2"
+        android:src="@drawable/ic_navigate_before_black_24dp" />
     <ImageView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="20dp"
         android:layout_height="wrap_content"
-        android:id="@+id/webtoon_list_image"
-        android:layout_below="@+id/webtoon_list_topbar"
+        android:id="@+id/List_Image"
+        android:layout_toRightOf="@id/List_Back"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginTop="15dp"
         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/List_Title"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:layout_toRightOf="@id/List_Image"
+        android:layout_alignTop="@id/List_Image"
+        android:text="노블레스"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/List_Byname"
+        android:layout_toRightOf="@id/List_Title"
+        android:layout_alignTop="@id/List_Title"
+        android:layout_marginLeft="10dp"
+        android:textSize="18sp"
+        android:text="황영호"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/List_Genre"
+        android:layout_alignLeft="@id/List_Title"
+        android:textSize="17sp"
+        android:layout_below="@id/List_Title"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:text="드라마"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/List_stroke"
+        android:layout_below="@id/List_Genre"
+        android:background="#aaaaaa"
+        android:layout_marginTop="23dp"
+        ></View>
+
 
 
 
