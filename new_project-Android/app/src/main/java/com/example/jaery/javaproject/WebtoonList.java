@@ -58,6 +58,20 @@ public class WebtoonList extends AppCompatActivity {
         ((TextView)findViewById(R.id.List_Byname)).setText(intent.getStringExtra("Byname"));
         image_small_url=intent.getStringExtra("URL");
 
+        mRecyclerView_Webtoon.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView_Webtoon, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent=new Intent(WebtoonList.this,WebttonViewer.class);
+                intent.putExtra("Index",webtoon.get(position).getGenre());
+                intent.putExtra("ID",webtoon.get(position).getID());
+                intent.putExtra("Content_ID",webtoon.get(position).getTitle().replace("화",""));
+                startActivity(intent);
+            }
+            @Override
+            public void onLongItemClick(View view, int position) {
+                //  Toast.makeText(getApplicationContext(), position + "번 째 아이템 롱 클릭", Toast.LENGTH_SHORT).show();
+            }
+        }));
 
         new Thread()
         {
@@ -113,7 +127,7 @@ public class WebtoonList extends AppCompatActivity {
 
 
 
-                    webtoon.add(new WebToonItem(3,data.getString("last"),"", data.getString("ID")+"화",
+                    webtoon.add(new WebToonItem(3,data.getString("W_ID"),data.getString("last"), data.getString("ID")+"화",
                             data.getString("title"), data.getString("Release"),"","",null));
 
 

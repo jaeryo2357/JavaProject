@@ -16,6 +16,7 @@
  	while($row = mysqli_fetch_array($res)){
       
      
+          $row_array['W_ID']=$row['ID'];
           $row_array['ID']=$row['Content_Num'];
           $row_array['title']=$row['Title'];
           $row_array['Release']=$row['Release_W'];

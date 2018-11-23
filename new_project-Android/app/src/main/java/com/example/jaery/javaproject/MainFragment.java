@@ -220,14 +220,16 @@ public class MainFragment extends Fragment {
                     InputStream is = conn.getInputStream();
 
                     MainNews.add(BitmapFactory.decodeStream(is));
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            scrollAdapter.notifyDataSetChanged();
-                        }
-                    });
+
 
                 }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        scrollAdapter.setData(MainNews);
+                        scrollAdapter.notifyDataSetChanged();
+                    }
+                });
 
             } catch (JSONException e) {
                 e.printStackTrace();

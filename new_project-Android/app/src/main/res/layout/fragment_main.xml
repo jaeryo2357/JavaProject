@@ -14,13 +14,12 @@
             <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
                 android:id="@+id/main_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="230dp" ></cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager>
+                android:layout_height="200dp" ></cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager>
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
                 android:layout_marginLeft="10dp"
                 android:text="이달의 추천 웹툰"
                 android:textSize="18sp" />

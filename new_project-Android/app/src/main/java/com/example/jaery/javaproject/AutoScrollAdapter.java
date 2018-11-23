@@ -3,6 +3,7 @@ package com.example.jaery.javaproject;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ public class AutoScrollAdapter extends PagerAdapter {
 
     Context context;
     ArrayList<Bitmap> data;
+    int size;
 
     public AutoScrollAdapter(Context context, ArrayList<Bitmap> data) {
         this.context = context;
@@ -53,9 +55,19 @@ public class AutoScrollAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return data.size();
+        return size;
     }
 
+    public void setData(ArrayList<Bitmap> mData) {
+        this.data = mData;
+        try{
+            notifyDataSetChanged();
+            size=data.size();
+        }
+        catch(Exception e) {
+           Log.e("Coupon View", e.toString());
+        }
+    }
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
