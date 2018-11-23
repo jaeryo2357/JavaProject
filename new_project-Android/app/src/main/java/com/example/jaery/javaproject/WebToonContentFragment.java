@@ -1,6 +1,7 @@
 package com.example.jaery.javaproject;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -56,7 +57,7 @@ public class WebToonContentFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view=inflater.inflate(R.layout.fragment_webtoon,container,false);
         webtoon=new ArrayList<>();
@@ -115,6 +116,23 @@ public class WebToonContentFragment extends Fragment {
             }
         }.start();
 
+        mRecyclerView_Webtoon.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView_Webtoon, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent=new Intent(getActivity(),WebtoonList.class);
+                intent.putExtra("Title",webtoon.get(position).getTitle());
+                intent.putExtra("Genre",webtoon.get(position).getGenre());
+                intent.putExtra("Byname",webtoon.get(position).getByname());
+                intent.putExtra("ID",webtoon.get(position).getID());
+                intent.putExtra("URL",webtoon.get(position).getSmallimage());
+                startActivity(intent);
+            }
+            @Override
+            public void onLongItemClick(View view, int position) {
+                //  Toast.makeText(getApplicationContext(), position + "번 째 아이템 롱 클릭", Toast.LENGTH_SHORT).show();
+            }
+        }));
+
         return view;
     }
 
@@ -153,9 +171,8 @@ public class WebToonContentFragment extends Fragment {
                     conn.connect();
                     InputStream is = conn.getInputStream();
 
-                    webtoon.add(new WebToonItem(2, data.getInt("ID"), data.getString("Genre"), data.getString("Title"),
-                            data.getString("ByName"), "",data.getString("BIG_IMAGE"),data.getString("SMALL_IMAGE"), BitmapFactory.decodeStream(is)));
-
+                    webtoon.add(new WebToonItem(2,data.getString("ID"), data.getString("Genre"), data.getString("Title"),
+                            data.getString("ByName"), "",data.getString("big_image"),data.getString("small_image"), BitmapFactory.decodeStream(is)));
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -164,6 +181,7 @@ public class WebToonContentFragment extends Fragment {
                     });
 
                 }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 public class WebToonItem {
 
-    public WebToonItem(int Type,int ID,String Genre,String title, String byname, String release,String Big,String small,Bitmap Image)
+    public WebToonItem(int Type,String ID,String Genre,String title, String byname, String release,String Big,String small,Bitmap Image)
     {
 
         this.Type=Type;
@@ -16,6 +16,9 @@ public class WebToonItem {
         this.byname=byname;
         this.release=release;
         this.icon=Image;
+        this.Genre=Genre;
+        this.smallimage=small;
+        this.ID=ID;
     }
     public WebToonItem(int Type, Bitmap image)
     {
@@ -61,8 +64,41 @@ public class WebToonItem {
 
 
     private  String Genre;
-    private int ID;
+    private String ID;
     private String Title;
+
+    public String getGenre() {
+        return Genre;
+    }
+
+    public void setGenre(String genre) {
+        Genre = genre;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
+    public String getBigimage() {
+        return Bigimage;
+    }
+
+    public void setBigimage(String bigimage) {
+        Bigimage = bigimage;
+    }
+
+    public String getSmallimage() {
+        return smallimage;
+    }
+
+    public void setSmallimage(String smallimage) {
+        this.smallimage = smallimage;
+    }
+
     private String Bigimage;
     private String smallimage;
     int Type;

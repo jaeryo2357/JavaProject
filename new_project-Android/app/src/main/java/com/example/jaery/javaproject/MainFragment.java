@@ -220,7 +220,6 @@ public class MainFragment extends Fragment {
                     InputStream is = conn.getInputStream();
 
                     MainNews.add(BitmapFactory.decodeStream(is));
-
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
@@ -229,6 +228,7 @@ public class MainFragment extends Fragment {
                     });
 
                 }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

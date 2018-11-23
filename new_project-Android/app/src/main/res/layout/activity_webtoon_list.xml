@@ -8,27 +8,28 @@
 
     <ImageButton
         android:id="@+id/List_Back"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_margin="20dp"
-
+        android:onClick="List_back"
         android:background="@drawable/round_background_v2"
         android:src="@drawable/ic_navigate_before_black_24dp" />
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
         android:layout_marginRight="20dp"
         android:layout_height="wrap_content"
         android:id="@+id/List_Image"
         android:layout_toRightOf="@id/List_Back"
         android:src="@mipmap/ic_launcher"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="10dp"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/List_Title"
-        android:textSize="19sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:layout_toRightOf="@id/List_Image"
         android:layout_alignTop="@id/List_Image"
@@ -41,7 +42,7 @@
         android:layout_toRightOf="@id/List_Title"
         android:layout_alignTop="@id/List_Title"
         android:layout_marginLeft="10dp"
-        android:textSize="18sp"
+        android:textSize="14sp"
         android:text="황영호"/>
 
     <TextView
@@ -49,7 +50,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/List_Genre"
         android:layout_alignLeft="@id/List_Title"
-        android:textSize="17sp"
+        android:textSize="13sp"
         android:layout_below="@id/List_Title"
         android:layout_marginTop="10dp"
         android:textStyle="bold"
@@ -60,10 +61,21 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:id="@+id/List_stroke"
-        android:layout_below="@id/List_Genre"
+        android:layout_below="@id/List_Image"
         android:background="#aaaaaa"
-        android:layout_marginTop="23dp"
-        ></View>
+        >
+
+    </View>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/List_Recycle"
+        android:layout_below="@id/List_stroke">
+
+
+
+    </android.support.v7.widget.RecyclerView>
 
 
 

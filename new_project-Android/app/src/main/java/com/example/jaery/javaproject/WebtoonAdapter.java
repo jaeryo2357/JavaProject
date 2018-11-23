@@ -72,6 +72,10 @@ class WebtoonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 View v3=inflater.inflate(R.layout.content_cardview,viewGroup,false);
                 viewHolder=new ContentViewHolder(v3);
                 break;
+            case 3:
+                View v4=inflater.inflate(R.layout.webtoon_list_item,viewGroup,false);
+                viewHolder=new NotHolder(v4);
+                break;
         }
         return viewHolder;
     }
@@ -90,6 +94,11 @@ class WebtoonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             case 2:
                 ContentViewHolder vh3=(ContentViewHolder)viewHolder;
                 configureContent_ViewHolder(vh3,position);
+                break;
+
+            case 3:
+                NotHolder vh4=(NotHolder)viewHolder;
+                configureNot_ViewHolder(vh4,position);
                 break;
 
         }
@@ -145,6 +154,14 @@ class WebtoonAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
     }
+    private void configureNot_ViewHolder(NotHolder vh1, int position) {
+        vh1.Title.setText(mDataset.get(position).getTitle());
+        vh1.times.setText(mDataset.get(position).getByname());
+        vh1.Release.setText(mDataset.get(position).getRelease());
+
+
+    }
+
 
 
 }

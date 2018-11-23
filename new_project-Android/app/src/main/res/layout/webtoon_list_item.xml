@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent"
-    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     >
 
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:id="@+id/Webtoon_Image"
+        android:src="@mipmap/ic_launcher"
         android:layout_alignParentLeft="true"
         android:layout_marginRight="8dp"
         android:layout_marginLeft="8dp"
@@ -18,28 +19,33 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:id="@+id/webtoon_title"
+        android:text="1화"
+        android:layout_marginLeft="15dp"
+        android:layout_centerVertical="true"
         android:layout_toRightOf="@id/Webtoon_Image"
-        android:layout_alignTop="@id/Webtoon_Image"
-        android:textSize="13sp"
+        android:textSize="17sp"
         android:textStyle="bold"/>
 
     <TextView
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/webtoon_title"
+        android:layout_centerVertical="true"
         android:id="@+id/webtoon_byname"
-        android:textSize="11sp"
-        android:layout_alignLeft="@id/webtoon_title" />
+        android:textSize="18sp"
+        android:text="프롤로그"
+        android:textStyle="bold"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@id/webtoon_title" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/webtoon_up_time"
-        android:layout_marginRight="10dp"
-        android:textSize="10sp"
-        android:layout_alignTop="@id/webtoon_title"
+        android:layout_marginRight="18dp"
+        android:textSize="15sp"
+        android:text="2018-10-05"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
         />
 </RelativeLayout>
