@@ -56,6 +56,15 @@
         android:textStyle="bold"
         android:text="드라마"/>
 
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:onClick="Fevorite"
+        android:src="@drawable/ic_star_border_black_24dp"
+        android:layout_alignTop="@id/List_Title"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"/>
+
 
     <View
         android:layout_width="match_parent"

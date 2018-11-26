@@ -88,12 +88,9 @@ public class MainFragment extends Fragment {
 
         MainNews = new ArrayList<>();//이미지 url를 저장하는 arraylist
 
-        /*
-        data.add(R.drawable.web1);
-        data.add(R.drawable.web2);
-        data.add(R.drawable.web3);
 
-*/
+
+
         autoViewPager = (AutoScrollViewPager) view.findViewById(R.id.main_viewpager);
         scrollAdapter = new AutoScrollAdapter(getActivity(), MainNews);
         autoViewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
@@ -138,17 +135,14 @@ public class MainFragment extends Fragment {
         });
 
         mRecyclerView.setAdapter(mAdapter);
-/*
-        myDataset.add(new WebToonItem(0,0,"", "신과함께1", "작가1", "2018.10.2",b));
 
 
-        myDataset.add(new WebToonItem(0, 0,"","신과함께1", "작가2", "2018.10.2",b2));
+        myDataset.add(new WebToonItem(2,"0","", "신과함께1", "작가1","2018.10.2","","",b));
+        myDataset.add(new WebToonItem(2,"0","", "신과함께1", "작가1","2018.10.2","","",b2));
+        myDataset.add(new WebToonItem(2,"0","", "신과함께1", "작가1","2018.10.2","","",b3));
 
 
 
-        myDataset.add(new WebToonItem(0,0,"", "신과함께1", "작가3", "2018.10.2",b3));
-
-*/
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -160,15 +154,11 @@ public class MainFragment extends Fragment {
             }
         }));
         mRecyclerView_New.setAdapter(mAdapter_New);
-/*
-        myDataset_New.add(new WebToonItem(0, 0,"","신과함께1", "작가1", "2018.10.2",b));
 
+      myDataset_New.add(new WebToonItem(0,"0","", "신과함께1", "작가1","2018.10.2","","",b));
+        myDataset_New.add(new WebToonItem(0,"0","", "신과함께1", "작가1","2018.10.2","","",b2));
+        myDataset_New.add(new WebToonItem(0,"0","", "신과함께1", "작가1","2018.10.2","","",b3));
 
-        myDataset_New.add(new WebToonItem(0,0,"", "신과함께1", "작가2", "2018.10.2",b2));
-
-
-        myDataset_New.add(new WebToonItem(0, 0,"","신과함께1", "작가3", "2018.10.2",b3));
-*/
         mRecyclerView_New.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView_New, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {

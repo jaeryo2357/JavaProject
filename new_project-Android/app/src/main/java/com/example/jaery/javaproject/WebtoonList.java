@@ -82,6 +82,14 @@ public class WebtoonList extends AppCompatActivity {
         }.start();
 
     }
+
+    public void Fevorite(View v)
+    {
+                
+    }
+
+
+
     public void List_back(View v)
     {
         finish();
@@ -127,8 +135,12 @@ public class WebtoonList extends AppCompatActivity {
 
 
 
-                    webtoon.add(new WebToonItem(3,data.getString("W_ID"),data.getString("last"), data.getString("ID")+"화",
-                            data.getString("title"), data.getString("Release"),"","",null));
+                    webtoon.add(new WebToonItem(3,data.getString("W_ID"),
+                            data.getString("last"),
+                            data.getString("ID")+"화",
+                            data.getString("title"),
+                            data.getString("Release"),
+                            "","",null));
 
 
                     handler.post(new Runnable() {
