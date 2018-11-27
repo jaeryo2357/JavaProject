@@ -5,6 +5,15 @@
     $Id=$_GET['ID'];
     $W_Id=$_GET['W_ID'];
     
+    $sql="SELECT ID_Key from User where ID='$Id'";
+
+
+    $res=mysqli_query($con,$sql);
+
+    $row = mysqli_fetch_array($res)
+
+    $Id=$row['ID_Key'];
+
 
      $sql="INSERT INTO Wish(User_ID,Webtoon_ID) Values('$Id','$W_Id')";
    
