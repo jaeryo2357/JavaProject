@@ -85,7 +85,7 @@ public class WebtoonList extends AppCompatActivity {
 
     public void Fevorite(View v)
     {
-                
+
     }
 
 

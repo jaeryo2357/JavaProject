@@ -1,0 +1,26 @@
+<?php
+
+	require_once('dbConnect.php');
+
+    $Id=$_GET['ID'];
+    $W_Id=$_GET['W_ID'];
+    
+
+     $sql="INSERT INTO Wish(User_ID,Webtoon_ID) Values('$Id','$W_Id')";
+   
+
+
+	
+    if(mysqli_query($con,$sql))
+      $result= array("result" => "true");//100이면 로그인 성공
+    else
+      $result= array("result" => "false"); // 50이면 db 삽입 실패
+ 
+     echo json_encode($result,JSON_UNESCAPED_UNICODE);
+  
+    mysqli_close($con);
+   
+ 
+ mysqli_close($con);
+ 
+
