@@ -188,7 +188,9 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }else
         {
-            Toast.makeText(MainActivity.this,"로그인 상태",Toast.LENGTH_LONG).show();
+            //Toast.makeText(MainActivity.this,"로그인 상태",Toast.LENGTH_LONG).show();
+            Intent intent=new Intent(MainActivity.this,MyPage.class);
+            startActivity(intent);
         }
     }
 
