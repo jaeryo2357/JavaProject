@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MyPage">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="내 정보"
+        android:textSize="20sp"
+        android:id="@+id/page_Title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="13dp"/>
+
+        <Button
+            android:layout_width="70dp"
+            android:layout_height="45dp"
+            android:textSize="14sp"
+            android:textColor="#ffffff"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="13dp"
+            android:background="@drawable/round_background_v2"
+            android:text="Follow"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#cccccc"
+        android:layout_below="@id/page_Title"
+        android:layout_marginTop="6dp"
+        android:id="@+id/page_stroke1"></View>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/page_follower"
+            android:gravity="center"
+            android:text="팔로워\n0"
+            android:layout_below="@id/page_stroke1"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="50dp"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/page_follow"
+            android:gravity="center"
+            android:text="팔로우\n0"
+            android:textStyle="bold"
+            android:layout_alignTop="@id/page_follower"
+            android:layout_marginRight="50dp"
+            android:layout_alignParentRight="true"
+            android:textSize="16sp"/>
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/page_stroke1"
+        android:src="@mipmap/ic_launcher"
+        android:layout_centerHorizontal="true">
+
+    </ImageView>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="양민욱"
+            android:layout_below="@id/page_follower"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:textSize="18sp"
+            android:id="@+id/page_name" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/page_name"
+        android:layout_marginTop="10dp"
+        android:id="@+id/page_stroke2"
+        android:background="#cccccc"></View>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="보고싶어요"
+            android:drawableLeft="@drawable/ic_book_black_24dp"
+            android:textStyle="bold"
+            android:textColor="#5375E2"
+            android:id="@+id/page_wish_tv"
+            android:layout_below="@id/page_stroke2"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"/>
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_alignLeft="@id/page_wish_tv"
+            android:src="@mipmap/ic_launcher"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/page_wish_ig"
+            android:layout_below="@id/page_wish_tv"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_alignTop="@id/page_wish_ig"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/page_wish_ig"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#cccccc"
+            android:id="@+id/page_stroke3"
+            android:layout_below="@id/page_wish_ig"
+            android:layout_marginTop="10dp"></View>
+
+
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>
