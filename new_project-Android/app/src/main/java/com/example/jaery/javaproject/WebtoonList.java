@@ -1,16 +1,19 @@
 package com.example.jaery.javaproject;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +42,10 @@ public class WebtoonList extends AppCompatActivity {
     private String image_small_url;
     private ImageView imageView;
     GetJson json;
+    Intent intent;
+    boolean favorie;
+    DBOpenHelper mdb;
+    ImageButton favorite_b;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +58,10 @@ public class WebtoonList extends AppCompatActivity {
         mAdapter_Webtoon=new WebtoonAdapter(webtoon,this,null);
         mRecyclerView_Webtoon.setAdapter(mAdapter_Webtoon);
         imageView=findViewById(R.id.List_Image);
-        final Intent intent=getIntent();
-
+        intent=getIntent();
+        mdb=new DBOpenHelper(this);
+        mdb.open();
+        favorite_b=findViewById(R.id.List_favorite);
         ((TextView)findViewById(R.id.List_Title)).setText(intent.getStringExtra("Title"));
         ((TextView)findViewById(R.id.List_Genre)).setText(intent.getStringExtra("Genre"));
         ((TextView)findViewById(R.id.List_Byname)).setText(intent.getStringExtra("Byname"));
@@ -85,7 +94,46 @@ public class WebtoonList extends AppCompatActivity {
 
     public void Fevorite(View v)
     {
+        if(mdb.findauto()==0||mdb.findauto()==-1)
+        {
+            AlertDialog.Builder a=new AlertDialog.Builder(this);
+            a.setTitle("주의").setMessage("로그인이 필요한 서비스 입니다.")
+                    .setPositiveButton("로그인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent=new Intent(WebtoonList.this,Register.class);
+                            startActivity(intent);
+                        }
+                    }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
+                }
+            }).setCancelable(false).show();
+        }else {
+
+            if (favorie == false) {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        json.requestWebServer(callback2, "Wish.php", "ID=" + mdb.findID(), "W_ID=" + intent.getStringExtra("ID"));
+                    }
+                }.start();
+            } else {
+                new Thread() {
+                    @Override
+                    public void run() {
+                        json.requestWebServer(callback3, "DelelteWish.php", "ID=" + mdb.findID(), "W_ID=" + intent.getStringExtra("ID"));
+                    }
+                }.start();
+            }
+        }
+        new Thread() {
+            @Override
+            public void run() {
+                json.requestWebServer(callback4, "CheckWish.php", "ID=" + mdb.findID(), "W_ID=" + intent.getStringExtra("ID"));
+            }
+        }.start();
     }
 
 
@@ -94,7 +142,90 @@ public class WebtoonList extends AppCompatActivity {
     {
         finish();
     }
+    private final Callback callback4= new Callback() {
 
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("webtoon", "콜백오류:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String body = response.body().string();
+            Log.d("webtoon", "서버에서 응답한 Body:" + body);
+
+            try {
+                JSONObject json=new JSONObject(body);
+
+                if(json.getString("result").equals("true")) {
+                    favorie=true;
+                }else
+                    favorie=false;
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
+
+    private final Callback callback3 = new Callback() {
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("webtoon", "콜백오류:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String body = response.body().string();
+            Log.d("webtoon", "서버에서 응답한 Body:" + body);
+
+            try {
+                JSONObject json=new JSONObject(body);
+
+                if(json.getString("result").equals("true")) {
+                    favorite_b.setImageResource(R.drawable.ic_star_border_black_24dp);
+                    favorie=false;
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
+
+    private final Callback callback2 = new Callback() {
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("webtoon", "콜백오류:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String body = response.body().string();
+            Log.d("webtoon", "서버에서 응답한 Body:" + body);
+
+            try {
+                JSONObject json=new JSONObject(body);
+
+                if(json.getString("result").equals("true")) {
+                    favorite_b.setImageResource(R.drawable.ic_star_black_24dp);
+                    favorie=true;
+                }
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
 
     private final Callback callback = new Callback() {
 

@@ -10,20 +10,23 @@
 
     $res=mysqli_query($con,$sql);
 
-    $row = mysqli_fetch_array($res);
+    $row = mysqli_fetch_array($res)
 
     $Id=$row['ID_Key'];
 
 
-     $sql="INSERT INTO Wish(User_ID,Webtoon_ID) Values($Id,$W_Id)";
+     $sql="SELECT FROM Wish where User_ID='$Id' and Webtoon_ID='$W_ID'";
    
+      $res=mysqli_query($con,$sql);
 
+      if($res->num_rows===0)
+      {
+        $result=array("result"=>"false");
 
-	
-    if(mysqli_query($con,$sql))
-      $result= array("result" => "true");//100이면 로그인 성공
-    else
-      $result= array("result" => "false"); // 50이면 db 삽입 실패
+      }else
+      $result=array("result"=>"true");
+
+	   
  
      echo json_encode($result,JSON_UNESCAPED_UNICODE);
   

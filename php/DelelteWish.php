@@ -15,7 +15,7 @@
     $Id=$row['ID_Key'];
 
 
-     $sql="INSERT INTO Wish(User_ID,Webtoon_ID) Values($Id,$W_Id)";
+     $sql="DELETE FROM Wish where User_ID='$Id' and Webtoon_ID='$W_ID'";
    
 
 

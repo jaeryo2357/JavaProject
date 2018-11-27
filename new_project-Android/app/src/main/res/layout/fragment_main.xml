@@ -14,7 +14,7 @@
             <cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager
                 android:id="@+id/main_viewpager"
                 android:layout_width="match_parent"
-                android:layout_height="200dp" ></cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager>
+                android:layout_height="230dp" ></cn.trinea.android.view.autoscrollviewpager.AutoScrollViewPager>
 
 
             <TextView
