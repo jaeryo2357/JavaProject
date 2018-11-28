@@ -20,9 +20,9 @@
         android:layout_marginTop="13dp"/>
 
         <Button
-            android:layout_width="70dp"
-            android:layout_height="45dp"
-            android:textSize="14sp"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:textSize="12sp"
             android:textColor="#ffffff"
             android:layout_alignParentRight="true"
             android:layout_marginRight="13dp"
@@ -116,6 +116,7 @@
             android:layout_alignTop="@id/page_wish_ig"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:id="@+id/page_wish_num"
             android:layout_toRightOf="@id/page_wish_ig"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"/>

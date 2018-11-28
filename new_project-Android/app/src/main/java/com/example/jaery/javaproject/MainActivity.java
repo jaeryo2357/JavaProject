@@ -118,7 +118,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener()
-
         {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -190,9 +189,8 @@ public class MainActivity extends AppCompatActivity {
         {
             //Toast.makeText(MainActivity.this,"로그인 상태",Toast.LENGTH_LONG).show();
             Intent intent=new Intent(MainActivity.this,MyPage.class);
+            intent.putExtra("M_ID",mydb.findID());
             startActivity(intent);
         }
     }
-
-
 }
