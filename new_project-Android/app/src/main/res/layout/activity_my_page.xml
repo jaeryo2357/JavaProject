@@ -23,9 +23,11 @@
             android:layout_width="60dp"
             android:layout_height="35dp"
             android:textSize="12sp"
+            android:id="@+id/page_buttn"
             android:textColor="#ffffff"
             android:layout_alignParentRight="true"
             android:layout_marginRight="13dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/round_background_v2"
             android:text="Follow"/>
 
@@ -34,35 +36,61 @@
         android:layout_height="1dp"
         android:background="#cccccc"
         android:layout_below="@id/page_Title"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/page_stroke1"></View>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/page_follower"
             android:gravity="center"
-            android:text="팔로워\n0"
+            android:text="팔로워"
             android:layout_below="@id/page_stroke1"
             android:layout_marginTop="25dp"
             android:layout_marginLeft="50dp"
+            android:textColor="#5375E2"
             android:textStyle="bold"
             android:textSize="16sp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/page_follower_num"
+            android:layout_below="@id/page_follower"
+            android:layout_alignLeft="@id/page_follower"
+            android:layout_alignRight="@id/page_follower"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="0"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/page_follow"
             android:gravity="center"
-            android:text="팔로우\n0"
+            android:text="팔로우"
             android:textStyle="bold"
+            android:textColor="#5375E2"
             android:layout_alignTop="@id/page_follower"
             android:layout_marginRight="50dp"
             android:layout_alignParentRight="true"
             android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/page_follow_num"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="0"
+            android:layout_alignLeft="@id/page_follow"
+            android:layout_alignRight="@id/page_follow"
+            android:layout_below="@id/page_follow"
+            android:layout_marginTop="10dp"/>
     <ImageView
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="6dp"
         android:layout_below="@id/page_stroke1"
         android:src="@mipmap/ic_launcher"
         android:layout_centerHorizontal="true">
