@@ -109,6 +109,9 @@ public class Register extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             auto = 2;
                                             mydb.insert(auto,editText_id.getText().toString(),editText_pwd.getText().toString());
+                                            Intent intent=new Intent(Register.this,MyPage.class);
+                                            intent.putExtra("M_ID",mydb.findID());
+                                            startActivity(intent);
                                             finish();
                                         }
                                     })
@@ -117,6 +120,9 @@ public class Register extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             auto = 1;
                                             mydb.insert(auto,editText_id.getText().toString(),editText_pwd.getText().toString());
+                                            Intent intent=new Intent(Register.this,MyPage.class);
+                                            intent.putExtra("M_ID",mydb.findID());
+                                            startActivity(intent);
                                             finish();
                                         }
                                     })
