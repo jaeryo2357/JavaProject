@@ -157,12 +157,7 @@ public class MyPage extends AppCompatActivity {
                 {
                     yValues.add(new PieEntry(map.get(key),key));
                 }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
+               
 
             } catch (JSONException e) {
                 e.printStackTrace();
