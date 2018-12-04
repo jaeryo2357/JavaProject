@@ -157,7 +157,7 @@ public class MyPage extends AppCompatActivity {
                 {
                     yValues.add(new PieEntry(map.get(key),key));
                 }
-               
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
