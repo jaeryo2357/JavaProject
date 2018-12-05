@@ -274,8 +274,6 @@ public class MyPage extends AppCompatActivity {
                 data2.setValueTextColor(Color.YELLOW);
                 pieChart.setData(data2);
 
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
