@@ -2,10 +2,11 @@
 
 	require_once('dbConnect.php');
 
-    $Id=$_GET['ID'];
+    $M_Id=$_GET['M_ID'];
+    $A_Id=$_GET['A_ID'];
     
 
-     $sql="SELECT * from Webtoon0 where ID='$Id'";
+     $sql="SELECT * from Follow where Follower='$M_Id' and Following ='$A_ID'";
    
 
 

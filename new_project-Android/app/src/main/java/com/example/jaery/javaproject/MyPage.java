@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -60,29 +61,6 @@ public class MyPage extends AppCompatActivity {
         json=GetJson.getInstance();
         db=new DBOpenHelper(this);
         db.open();
-        pieChart.setUsePercentValues(true);
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setExtraOffsets(5,10,5,5);
-
-        pieChart.setDragDecelerationFrictionCoef(0.95f);
-
-        pieChart.setDrawHoleEnabled(false);
-        pieChart.setHoleColor(Color.WHITE);
-        pieChart.setTransparentCircleRadius(61f);
-
-        Description description = new Description();
-        description.setText("선호 장르"); //라벨
-        description.setTextSize(15);
-        pieChart.setDescription(description);
-
-        PieDataSet dataSet = new PieDataSet(yValues,"Genre");
-        dataSet.setSliceSpace(3f);
-        dataSet.setSelectionShift(5f);
-        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-        PieData data = new PieData((dataSet));
-        data.setValueTextSize(10f);
-        data.setValueTextColor(Color.YELLOW);
-        pieChart.setData(data);
 
 
         pieChart.animateY(1000, Easing.EasingOption.EaseInOutCubic); //애니메이션
@@ -96,6 +74,37 @@ public class MyPage extends AppCompatActivity {
                 json.requestWebServer(callback,"SelectUser.php","ID="+intent.getStringExtra("M_ID"));
             }
         }.start();
+
+        b_name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(((Button)v).getText().toString().equals("로그 아웃"))
+                {
+                    if(db.UpdateAuto(0))
+                        finish();
+                }else if(((Button)v).getText().toString().equals("Follow"))
+                {
+                    ((Button) v).setText("UnFollow");
+                    new Thread()
+                    {
+                        @Override
+                        public void run() {
+                            json.requestWebServer(callback,"SelectUser.php","ID="+intent.getStringExtra("M_ID"));
+                        }
+                    }.start();
+                }else
+                {
+                    ((Button) v).setText("Follow");
+                    new Thread()
+                    {
+                        @Override
+                        public void run() {
+                            json.requestWebServer(callback,"SelectUser.php","ID="+intent.getStringExtra("M_ID"));
+                        }
+                    }.start();
+                }
+            }
+        });
     }
     private final Callback callback = new Callback() {
 
@@ -157,6 +166,34 @@ public class MyPage extends AppCompatActivity {
                 {
                     yValues.add(new PieEntry(map.get(key),key));
                 }
+
+                if(dataarr.length()==0)
+                    yValues.add((new PieEntry(1,"선호 없음 ")));
+
+                pieChart.setUsePercentValues(true);
+                pieChart.getDescription().setEnabled(false);
+                pieChart.setExtraOffsets(5,10,5,5);
+
+                pieChart.setDragDecelerationFrictionCoef(0.95f);
+
+                pieChart.setDrawHoleEnabled(false);
+                pieChart.setHoleColor(Color.WHITE);
+                pieChart.setTransparentCircleRadius(61f);
+
+                Description description = new Description();
+                description.setText("선호 장르"); //라벨
+                description.setTextSize(15);
+                pieChart.setDescription(description);
+
+                PieDataSet dataSet = new PieDataSet(yValues,"Genre");
+                dataSet.setSliceSpace(3f);
+                dataSet.setSelectionShift(5f);
+                dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+                PieData data2 = new PieData((dataSet));
+                data2.setValueTextSize(10f);
+                data2.setValueTextColor(Color.YELLOW);
+                pieChart.setData(data2);
+
 
 
             } catch (JSONException e) {
