@@ -103,7 +103,7 @@ public class MyPage extends AppCompatActivity {
                     {
                         @Override
                         public void run() {
-                            json.requestWebServer(callback2,"UnFollowing.php","M_ID="+intent.getStringExtra("M_ID"));
+                            json.requestWebServer(callback3,"UnFollowing.php","M_ID="+intent.getStringExtra("M_ID"));
                         }
                     }.start();
                 }
@@ -121,7 +121,59 @@ public class MyPage extends AppCompatActivity {
         public void onResponse(Call call, Response response) throws IOException {
             String body = response.body().string();
             Log.d("webtoon", "서버에서 응답한 Body:" + body);
+            Handler handler = new Handler(Looper.getMainLooper());
+            try {
 
+                JSONObject data=new JSONObject(body);
+                if(data.getString("result").equals("true"))
+                {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            int n=Integer.parseInt(tv_follow.getText().toString());
+                            if(n!=0)
+                                n--;
+                            tv_follow.setText(n+"");
+                        }
+                    });
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
+    private final Callback callback3 = new Callback() {
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("webtoon", "콜백오류:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String body = response.body().string();
+            Log.d("webtoon", "서버에서 응답한 Body:" + body);
+            Handler handler = new Handler(Looper.getMainLooper());
+            try {
+
+                JSONObject data=new JSONObject(body);
+                if(data.getString("result").equals("true"))
+                {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            int n=Integer.parseInt(tv_follow.getText().toString());
+                            if(n!=0)
+                                n++;
+                            tv_follow.setText(n+"");
+                        }
+                    });
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }
     };
