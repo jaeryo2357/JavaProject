@@ -5,6 +5,15 @@
     $M_Id=$_GET['M_ID'];
     $A_Id=$_GET['A_ID'];
     
+    $sql="SELECT * from User where ID='$M_Id'";
+
+
+    $res=mysqli_query($con,$sql);
+
+
+    $row = mysqli_fetch_array($res);
+      
+    $M_ID=$row['ID_Key'];
 
      $sql="DELETE FROM Follow WHERE Follower='$M_Id' AND Following='$A_Id'";
    

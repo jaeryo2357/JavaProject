@@ -11,12 +11,28 @@
     $res=mysqli_query($con,$sql);
 
 
-        $row = mysqli_fetch_array($res);
+    $row = mysqli_fetch_array($res);
       
-          $M_ID=$row['ID_Key'];
-          $row_array['ID_Key']=$row['ID_Key'];
-          $row_array['NAME']=$row['NAME'];
+    $M_ID=$row['ID_Key'];
+    $row_array['ID_Key']=$row['ID_Key'];
+    $row_array['NAME']=$row['NAME'];
+
+    $sql="SELECT * FROM Follow WHERE Follower='$M_ID'";
+   
+
+  $res=mysqli_query($con,$sql);
+  $row_array['Follow']= $res->num_rows;
+    
+
+  $sql="SELECT * FROM Follow WHERE Following='$M_ID'";
+  $res=mysqli_query($con,$sql);
+   $row_array["Follower"] = $res->num_rows;
+
          
+
+
+
+
           $sql="SELECT Webtoon.GENRE FROM Wish,Webtoon Where Wish.Webtoon_ID=Webtoon.ID AND USER_ID='$M_ID'";
 
 

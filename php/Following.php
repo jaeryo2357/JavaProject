@@ -6,7 +6,17 @@
     $A_Id=$_GET['A_ID'];
     
 
-     $sql="INSERT INTO Follow(Follower,Following) Values($M_Id,$A_Id)";
+    $sql="SELECT * from User where ID='$M_Id'";
+
+
+    $res=mysqli_query($con,$sql);
+
+
+    $row = mysqli_fetch_array($res);
+      
+    $M_ID=$row['ID_Key'];
+        
+    $sql="INSERT INTO Follow(Follower,Following) Values($M_Id,$A_Id)";
    
 
 

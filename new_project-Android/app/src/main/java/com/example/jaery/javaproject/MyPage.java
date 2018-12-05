@@ -46,6 +46,8 @@ public class MyPage extends AppCompatActivity {
     TextView tv_name;
     Button b_name;
     TextView tv_wish_num;
+    TextView tv_follow;
+    TextView tv_following;
     String my_num=null;
     PieChart pieChart;
     DBOpenHelper db;
@@ -61,6 +63,8 @@ public class MyPage extends AppCompatActivity {
         json=GetJson.getInstance();
         db=new DBOpenHelper(this);
         db.open();
+        tv_follow=findViewById(R.id.page_follow_num);
+        tv_following=findViewById(R.id.page_follower_num);
 
 
         pieChart.animateY(1000, Easing.EasingOption.EaseInOutCubic); //애니메이션
@@ -89,7 +93,7 @@ public class MyPage extends AppCompatActivity {
                     {
                         @Override
                         public void run() {
-                            json.requestWebServer(callback,"SelectUser.php","ID="+intent.getStringExtra("M_ID"));
+                            json.requestWebServer(callback2,"Following.php","M_ID="+db.findID());
                         }
                     }.start();
                 }else
@@ -99,13 +103,28 @@ public class MyPage extends AppCompatActivity {
                     {
                         @Override
                         public void run() {
-                            json.requestWebServer(callback,"SelectUser.php","ID="+intent.getStringExtra("M_ID"));
+                            json.requestWebServer(callback2,"UnFollowing.php","M_ID="+intent.getStringExtra("M_ID"));
                         }
                     }.start();
                 }
             }
         });
     }
+    private final Callback callback2 = new Callback() {
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("webtoon", "콜백오류:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String body = response.body().string();
+            Log.d("webtoon", "서버에서 응답한 Body:" + body);
+
+
+        }
+    };
     private final Callback callback = new Callback() {
 
         @Override
@@ -150,7 +169,16 @@ public class MyPage extends AppCompatActivity {
                      tv_wish_num.setText(s1);
                     }
                 });
+                final String s2=data.getString("Follow");
+                final String s3=data.getString("Following");
 
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        tv_follow.setText(s2);
+                        tv_following.setText(s3);
+                    }
+                });
                 JSONArray dataarr=data.getJSONArray("WishArray");
 
                 HashMap<String,Integer> map=new HashMap<>();
