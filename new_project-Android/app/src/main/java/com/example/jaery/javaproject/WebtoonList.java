@@ -181,12 +181,19 @@ public class WebtoonList extends AppCompatActivity {
         public void onResponse(Call call, Response response) throws IOException {
             String body = response.body().string();
             Log.d("webtoon", "서버에서 응답한 Body:" + body);
-
+            Handler handler = new Handler(Looper.getMainLooper());
             try {
                 JSONObject json=new JSONObject(body);
 
                 if(json.getString("result").equals("true")) {
-                    favorite_b.setImageResource(R.drawable.ic_star_border_black_24dp);
+               
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            favorite_b.setImageResource(R.drawable.ic_star_border_black_24dp);
+                        }
+                    });
+
                     favorie=false;
                 }
 
@@ -271,9 +278,6 @@ public class WebtoonList extends AppCompatActivity {
 
                 for(int i=0;i<dataarr.length();i++) {
                     JSONObject data=dataarr.getJSONObject(i);
-
-
-
 
                     webtoon.add(new WebToonItem(3,data.getString("W_ID"),
                             data.getString("last"),

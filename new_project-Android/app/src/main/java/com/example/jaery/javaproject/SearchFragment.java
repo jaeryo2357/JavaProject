@@ -6,21 +6,33 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class SearchFragment extends Fragment {
     TextView tv_member;
     TextView tv_Webtoon;
     RecyclerView recyclerView_member;
     RecyclerView recyclerView_Webtoon;
+
     ArrayList<WebToonItem> r_m;
     ArrayList<WebToonItem> r_w;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,8 +100,53 @@ public class SearchFragment extends Fragment {
         };
         tv_member.setOnClickListener(tvonClick);
         tv_Webtoon.setOnClickListener(tvonClick);
+
+        final GetJson json=GetJson.getInstance();
+
+        new Thread() {
+            @Override
+            public void run() {
+                json.requestWebServer(callback, "Search.php", "Search=");
+            }
+        }.start();
         return view;
     }
+    private final Callback callback= new Callback() {
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("webtoon", "콜백오류:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String body = response.body().string();
+            Log.d("webtoon", "서버에서 응답한 Body:" + body);
+
+            try {
+                JSONObject json=new JSONObject(body);
+
+                JSONArray jsonArray=new JSONArray("UserArray");
+
+                for(int i=0;i<jsonArray.length();i++)
+                {
+                    JSONObject data=jsonArray.getJSONObject(i);
+                    r_m.add(new WebToonItem(3,data.getString("ID_Key"),
+                            "",
+                            data.getString("Name"),
+                            "",
+                            "",
+                            "","",null));
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
+
 
 
 }
