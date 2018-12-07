@@ -1,6 +1,8 @@
 package com.example.jaery.javaproject;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,9 +32,11 @@ public class SearchFragment extends Fragment {
     RecyclerView recyclerView_member;
     RecyclerView recyclerView_Webtoon;
 
-    ArrayList<WebToonItem> r_m;
-    ArrayList<WebToonItem> r_w;
-
+    ArrayList<WebToonItem> r_m=new ArrayList<>();
+    ArrayList<WebToonItem> r_w=new ArrayList<>();
+    String searchString;
+    WebtoonAdapter M_A;
+    WebtoonAdapter W_A;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,13 +50,17 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         tv_member = view.findViewById(R.id.search_textMember);
 
+        searchString = getArguments().getString("searchString");
+
         tv_Webtoon = view.findViewById(R.id.search_textWebtoon);
         recyclerView_member = view.findViewById(R.id.search_RecycleMember);
         recyclerView_Webtoon = view.findViewById(R.id.search_RecycleWebtoon);
         recyclerView_member.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_Webtoon.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView_member.setAdapter(new WebtoonAdapter(r_m,getActivity(),null));
-        recyclerView_Webtoon.setAdapter(new WebtoonAdapter(r_w,getActivity(),null));
+        M_A=new WebtoonAdapter(r_m,getActivity(),null);
+        W_A=new WebtoonAdapter(r_w,getActivity(),null);
+        recyclerView_member.setAdapter(M_A);
+        recyclerView_Webtoon.setAdapter(W_A);
 
         recyclerView_member.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_member, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
@@ -106,7 +114,7 @@ public class SearchFragment extends Fragment {
         new Thread() {
             @Override
             public void run() {
-                json.requestWebServer(callback, "Search.php", "Search=");
+                json.requestWebServer(callback, "Search.php", "Search="+searchString);
             }
         }.start();
         return view;
@@ -122,11 +130,11 @@ public class SearchFragment extends Fragment {
         public void onResponse(Call call, Response response) throws IOException {
             String body = response.body().string();
             Log.d("webtoon", "서버에서 응답한 Body:" + body);
-
+            Handler handler = new Handler(Looper.getMainLooper());
             try {
                 JSONObject json=new JSONObject(body);
 
-                JSONArray jsonArray=new JSONArray("UserArray");
+                JSONArray jsonArray=new JSONArray(json.getString("UserArray"));
 
                 for(int i=0;i<jsonArray.length();i++)
                 {
@@ -139,6 +147,25 @@ public class SearchFragment extends Fragment {
                             "","",null));
                 }
 
+                jsonArray=new JSONArray(json.getString("WebtoonArray"));
+
+                for(int i=0;i<jsonArray.length();i++)
+                {
+                    JSONObject data=jsonArray.getJSONObject(i);
+                    r_w.add(new WebToonItem(3,data.getString("W_ID"),
+                            "",
+                            data.getString("W_Title"),
+                            data.getString("W_ByName"),
+                            data.getString("W_Genre"),
+                            "",data.getString("W_Image"),null));
+                }
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        M_A.notifyDataSetChanged();
+                        W_A.notifyDataSetChanged();
+                    }
+                });
 
             } catch (JSONException e) {
                 e.printStackTrace();

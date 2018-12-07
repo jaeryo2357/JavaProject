@@ -13,7 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
     MainFragment mainFragment;
     WebToonContentFragment webToonContentFragment;
+    SearchFragment searchFr;
     EditText editText;
     boolean express = false;
     FragmentManager fm;
@@ -36,7 +39,9 @@ public class MainActivity extends AppCompatActivity {
     View view;
     private boolean isFragmentA=true;
     private boolean isFragmentB=false;
+    private boolean isFragmentC=false;
     DBOpenHelper mydb;
+    String SearchString="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,58 +122,118 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener()
-        {
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editText.getLayoutParams();
-                    //    layoutParams.removeRule(RelativeLayout.ALIGN_LEFT);
-                    layoutParams.addRule(RelativeLayout.ALIGN_LEFT, R.id.notinflate);
-                    editText.setLayoutParams(layoutParams);
-                    express = false;
-                    editText.setText("");
-                    editText.setFocusable(false);
-                    layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-                    layoutParams.leftMargin = 250;
-                    view.setLayoutParams(layoutParams);
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId==EditorInfo.IME_ACTION_SEARCH) {
+                    SearchString=editText.getText().toString();
+                    unexpress();
+
+                    FrSearch(null);
                 }
+                return false;
             }
         });
 
 
     }
 
+    public void unexpress()
+    {
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editText.getLayoutParams();
+        //    layoutParams.removeRule(RelativeLayout.ALIGN_LEFT);
+        layoutParams.addRule(RelativeLayout.ALIGN_LEFT, R.id.notinflate);
+        editText.setLayoutParams(layoutParams);
+        express = false;
+        editText.setText("");
+        editText.setFocusable(false);
+        layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+        layoutParams.leftMargin = 250;
+        view.setLayoutParams(layoutParams);
+    }
 
    public void FrCotent(View v)
    {
-       if(isFragmentA)
+       if(isFragmentA||isFragmentC)
        {    isFragmentB=true;
             isFragmentA=false;
+            isFragmentC=false;
             webToonContentFragment=new WebToonContentFragment();
            fm=getSupportFragmentManager();
            fragmentTransaction=fm.beginTransaction();
+           if(mainFragment!=null){
            fragmentTransaction.remove(mainFragment);
+           mainFragment=null;
+           }
+           else {
+               fragmentTransaction.remove(searchFr);
+                searchFr=null;
+           }
            fragmentTransaction.add(R.id.main_FrameLayout,webToonContentFragment);
            fragmentTransaction.commit();
            ImageButton b=findViewById(R.id.main_B_home);
           b.setImageResource(R.drawable.ic_person_outline_black_24dp);
            b=findViewById(R.id.main_B_Content);
            b.setImageResource(R.drawable.ic_label_black_24dp);
+           b=findViewById(R.id.main_B_Search);
+           b.setImageResource(R.drawable.ic_people_outline_black_24dp);
 
        }
    }
+    public void FrSearch(View view)
+    {
+        if(isFragmentB||isFragmentA)
+        {
+            isFragmentC=true;
+            isFragmentA=false;
+            isFragmentB=false;
 
+            fm=getSupportFragmentManager();
+            fragmentTransaction=fm.beginTransaction();
+            if(webToonContentFragment!=null) {
+                fragmentTransaction.remove(webToonContentFragment);
+                webToonContentFragment=null;
+            }
+            else {
+                fragmentTransaction.remove(mainFragment);
+                mainFragment=null;
+            }
+
+
+            searchFr=new SearchFragment();
+            Bundle bundle = new Bundle(1); // 파라미터는 전달할 데이터 개수
+            bundle.putString("searchString", SearchString);
+            SearchString="";// key , value
+            searchFr.setArguments(bundle);
+
+            fragmentTransaction.replace(R.id.main_FrameLayout,searchFr);
+            fragmentTransaction.commit();
+
+            ImageButton b=findViewById(R.id.main_B_home);
+            b.setImageResource(R.drawable.ic_person_outline_black_24dp);
+            b=findViewById(R.id.main_B_Content);
+            b.setImageResource(R.drawable.ic_label_outline_black_24dp);
+            b=findViewById(R.id.main_B_Search);
+            b.setImageResource(R.drawable.ic_people_black_24dp);
+        }
+    }
    public void FrHome(View view)
    {
-       if(isFragmentB)
+       if(isFragmentB||isFragmentC)
        {
            isFragmentA=true;
            isFragmentB=false;
+           isFragmentC=false;
            mainFragment=new MainFragment();
            fm=getSupportFragmentManager();
            fragmentTransaction=fm.beginTransaction();
+           if(webToonContentFragment !=null){
            fragmentTransaction.remove(webToonContentFragment);
+           webToonContentFragment=null;}
+           else {
+               fragmentTransaction.remove(searchFr);
+               searchFr = null;
+           }
            fragmentTransaction.add(R.id.main_FrameLayout,mainFragment);
            fragmentTransaction.commit();
 
@@ -176,6 +241,8 @@ public class MainActivity extends AppCompatActivity {
            b.setImageResource(R.drawable.ic_person_black_24dp);
            b=findViewById(R.id.main_B_Content);
           b.setImageResource(R.drawable.ic_label_outline_black_24dp);
+          b=findViewById(R.id.main_B_Search);
+          b.setImageResource(R.drawable.ic_people_outline_black_24dp);
        }
    }
 

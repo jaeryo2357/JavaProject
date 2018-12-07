@@ -61,6 +61,7 @@
             android:layout_alignLeft="@id/notinflate"
             android:focusable="false"
             android:inputType="text"
+            android:imeOptions="actionSearch"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:paddingLeft="13dp"
@@ -105,6 +106,16 @@
             android:id="@+id/main_B_Content"
             android:layout_centerHorizontal="true"
             android:src="@drawable/ic_label_outline_black_24dp"
+            android:background="@null"/>
+
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="FrSearch"
+            android:id="@+id/main_B_Search"
+            android:layout_toRightOf="@id/main_B_Content"
+            android:layout_marginLeft="60dp"
+            android:src="@drawable/ic_people_outline_black_24dp"
             android:background="@null"/>
     </RelativeLayout>
 

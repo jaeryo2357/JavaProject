@@ -186,7 +186,7 @@ public class WebtoonList extends AppCompatActivity {
                 JSONObject json=new JSONObject(body);
 
                 if(json.getString("result").equals("true")) {
-               
+
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
