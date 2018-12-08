@@ -1,5 +1,6 @@
 package com.example.jaery.javaproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -14,14 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -31,12 +29,13 @@ public class SearchFragment extends Fragment {
     TextView tv_Webtoon;
     RecyclerView recyclerView_member;
     RecyclerView recyclerView_Webtoon;
-
     ArrayList<WebToonItem> r_m=new ArrayList<>();
     ArrayList<WebToonItem> r_w=new ArrayList<>();
     String searchString;
     WebtoonAdapter M_A;
     WebtoonAdapter W_A;
+    TextView tv_m;
+    TextView tv_w;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,10 +45,11 @@ public class SearchFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         tv_member = view.findViewById(R.id.search_textMember);
-
+        tv_m=view.findViewById(R.id.search_textMemberNum);
+        tv_w=view.findViewById(R.id.search_textWebtoonNum);
         searchString = getArguments().getString("searchString");
 
         tv_Webtoon = view.findViewById(R.id.search_textWebtoon);
@@ -65,7 +65,9 @@ public class SearchFragment extends Fragment {
         recyclerView_member.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_member, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(), position + "번 째 아이템 클릭", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getActivity(),MyPage.class);
+                intent.putExtra("M_ID",r_m.get(position).getID());
+                startActivity(intent);
             }
             @Override
             public void onLongItemClick(View view, int position) {
@@ -76,7 +78,13 @@ public class SearchFragment extends Fragment {
         recyclerView_Webtoon.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), recyclerView_Webtoon, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(), position + "번 째 아이템 클릭", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getActivity(),WebtoonList.class);
+                intent.putExtra("Title",r_w.get(position).getTitle());
+                intent.putExtra("Genre",r_w.get(position).getRelease());
+                intent.putExtra("Byname",r_w.get(position).getByname());
+                intent.putExtra("ID",r_w.get(position).getID());
+                intent.putExtra("URL",r_w.get(position).getSmallimage());
+                startActivity(intent);
             }
             @Override
             public void onLongItemClick(View view, int position) {
@@ -136,6 +144,10 @@ public class SearchFragment extends Fragment {
 
                 JSONArray jsonArray=new JSONArray(json.getString("UserArray"));
 
+                JSONArray jsonArray2=new JSONArray(json.getString("WebtoonArray"));
+                final int memberNum=jsonArray.length();
+
+
                 for(int i=0;i<jsonArray.length();i++)
                 {
                     JSONObject data=jsonArray.getJSONObject(i);
@@ -147,22 +159,26 @@ public class SearchFragment extends Fragment {
                             "","",null));
                 }
 
-                jsonArray=new JSONArray(json.getString("WebtoonArray"));
 
-                for(int i=0;i<jsonArray.length();i++)
+                final int webtoonNum=jsonArray2.length();
+                for(int i=0;i<jsonArray2.length();i++)
                 {
-                    JSONObject data=jsonArray.getJSONObject(i);
+                    JSONObject data=jsonArray2.getJSONObject(i);
+
                     r_w.add(new WebToonItem(3,data.getString("W_ID"),
                             "",
                             data.getString("W_Title"),
                             data.getString("W_ByName"),
                             data.getString("W_Genre"),
                             "",data.getString("W_Image"),null));
+
                 }
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
                         M_A.notifyDataSetChanged();
+                        tv_m.setText("("+memberNum+")");
+                        tv_w.setText("("+webtoonNum+")");
                         W_A.notifyDataSetChanged();
                     }
                 });

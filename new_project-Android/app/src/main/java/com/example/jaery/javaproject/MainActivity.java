@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity {
                     SearchString=editText.getText().toString();
                     unexpress();
 
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(editText.getWindowToken(),0);
                     FrSearch(null);
                 }
                 return false;
@@ -140,16 +142,33 @@ public class MainActivity extends AppCompatActivity {
 
     public void unexpress()
     {
-        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) editText.getLayoutParams();
-        //    layoutParams.removeRule(RelativeLayout.ALIGN_LEFT);
-        layoutParams.addRule(RelativeLayout.ALIGN_LEFT, R.id.notinflate);
-        editText.setLayoutParams(layoutParams);
+        TextView textView = findViewById(R.id.Project_title);
+        textView.setVisibility(View.VISIBLE);
+
+
         express = false;
         editText.setText("");
         editText.setFocusable(false);
-        layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
-        layoutParams.leftMargin = 250;
-        view.setLayoutParams(layoutParams);
+
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
+
+        ValueAnimator animator = ValueAnimator.ofInt(0, 780);
+        final RelativeLayout.LayoutParams finalLayoutParams = layoutParams;
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                finalLayoutParams.leftMargin = (Integer) valueAnimator.getAnimatedValue();
+
+                view.setLayoutParams(finalLayoutParams);
+            }
+        });
+        animator.setDuration(300);
+        animator.start();
+
+        layoutParams = (RelativeLayout.LayoutParams) editText.getLayoutParams();
+      //  layoutParams.addRule(RelativeLayout.ALIGN_LEFT, R.id.notinflate);
+        editText.setLayoutParams(layoutParams);
+
     }
 
    public void FrCotent(View v)

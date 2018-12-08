@@ -26,7 +26,7 @@
             $row_array2['W_Title']=$row2['TITLE'];
             $row_array2['W_ByName']=$row2['BY_NAME'];
             $row_array2['W_Image']=$row2['SMALL_IMAGE'];
-            $orw_array2['W_Genre']=$row2['GENRE'];
+            $row_array2['W_Genre']=$row2['GENRE'];
             array_push($D_row2,$row_array2);
           }
 
