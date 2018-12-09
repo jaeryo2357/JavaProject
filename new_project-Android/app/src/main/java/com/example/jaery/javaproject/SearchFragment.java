@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -52,6 +53,14 @@ public class SearchFragment extends Fragment {
         tv_w=view.findViewById(R.id.search_textWebtoonNum);
         searchString = getArguments().getString("searchString");
 
+        if(savedInstanceState !=null)
+        {
+            tv_w.setText(savedInstanceState.getString("Webtoon"));
+            tv_m.setText(savedInstanceState.getString("member"));
+            r_w=savedInstanceState.getParcelableArrayList("WebtoonArray");
+            r_m=savedInstanceState.getParcelableArrayList("memberArray");
+        }
+
         tv_Webtoon = view.findViewById(R.id.search_textWebtoon);
         recyclerView_member = view.findViewById(R.id.search_RecycleMember);
         recyclerView_Webtoon = view.findViewById(R.id.search_RecycleWebtoon);
@@ -66,7 +75,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent=new Intent(getActivity(),MyPage.class);
-                intent.putExtra("M_ID",r_m.get(position).getID());
+                intent.putExtra("M_ID",r_m.get(position).getBigimage());
                 startActivity(intent);
             }
             @Override
@@ -125,8 +134,21 @@ public class SearchFragment extends Fragment {
                 json.requestWebServer(callback, "Search.php", "Search="+searchString);
             }
         }.start();
+
+
+
         return view;
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("WebtoonArray", (ArrayList<? extends Parcelable>) r_w);
+        outState.putParcelableArrayList("memberArray", (ArrayList<? extends Parcelable>) r_m);
+        outState.putString("Webtoon",tv_w.getText().toString());
+        outState.putString("member",tv_m.getText().toString());
+    }
+
     private final Callback callback= new Callback() {
 
         @Override
@@ -156,7 +178,7 @@ public class SearchFragment extends Fragment {
                             data.getString("Name"),
                             "",
                             "",
-                            "","",null));
+                            data.getString("ID"),"",null));
                 }
 
 

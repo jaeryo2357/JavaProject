@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) view.getLayoutParams();
 
-        ValueAnimator animator = ValueAnimator.ofInt(0, 780);
+        ValueAnimator animator = ValueAnimator.ofInt(0, 250);
         final RelativeLayout.LayoutParams finalLayoutParams = layoutParams;
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
         animator.start();
 
         layoutParams = (RelativeLayout.LayoutParams) editText.getLayoutParams();
-      //  layoutParams.addRule(RelativeLayout.ALIGN_LEFT, R.id.notinflate);
+       layoutParams.addRule(RelativeLayout.ALIGN_LEFT, R.id.notinflate);
         editText.setLayoutParams(layoutParams);
 
     }
@@ -213,9 +213,13 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.remove(webToonContentFragment);
                 webToonContentFragment=null;
             }
-            else {
+            else if(mainFragment!=null){
                 fragmentTransaction.remove(mainFragment);
                 mainFragment=null;
+            }else
+            {
+                fragmentTransaction.remove(searchFr);
+                searchFr=null;
             }
 
 

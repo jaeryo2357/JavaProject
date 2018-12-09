@@ -89,7 +89,12 @@ public class WebtoonList extends AppCompatActivity {
                 json.requestWebServer(callback,"WebtoonList.php","ID="+intent.getStringExtra("ID"));
             }
         }.start();
-
+        new Thread() {
+            @Override
+            public void run() {
+                json.requestWebServer(callback4, "CheckWish.php", "ID=" + mdb.findID(), "W_ID=" + intent.getStringExtra("ID"));
+            }
+        }.start();
     }
 
     public void Fevorite(View v)
@@ -128,12 +133,7 @@ public class WebtoonList extends AppCompatActivity {
                 }.start();
             }
         }
-        new Thread() {
-            @Override
-            public void run() {
-                json.requestWebServer(callback4, "CheckWish.php", "ID=" + mdb.findID(), "W_ID=" + intent.getStringExtra("ID"));
-            }
-        }.start();
+
     }
 
 
@@ -156,12 +156,24 @@ public class WebtoonList extends AppCompatActivity {
 
             try {
                 JSONObject json=new JSONObject(body);
-
+                Handler handler = new Handler(Looper.getMainLooper());
                 if(json.getString("result").equals("true")) {
                     favorie=true;
-                }else
-                    favorie=false;
-
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            favorite_b.setImageResource(R.drawable.ic_star_black_24dp);
+                        }
+                    });
+                }else {
+                    favorie = false;
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            favorite_b.setImageResource(R.drawable.ic_star_border_black_24dp);
+                        }
+                    });
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -229,7 +241,6 @@ public class WebtoonList extends AppCompatActivity {
                             favorite_b.setImageResource(R.drawable.ic_star_black_24dp);
                         }
                     });
-
 
                     favorie=true;
                 }

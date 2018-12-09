@@ -68,9 +68,29 @@ public class MyPage extends AppCompatActivity {
 
 
         pieChart.animateY(1000, Easing.EasingOption.EaseInOutCubic); //애니메이션
+        pieChart.setUsePercentValues(true);
+        pieChart.getDescription().setEnabled(false);
+        pieChart.setExtraOffsets(5,10,5,5);
 
-        tv_name=findViewById(R.id.page_name);
-        tv_wish_num=findViewById(R.id.page_wish_num);
+        pieChart.setDragDecelerationFrictionCoef(0.95f);
+
+        pieChart.setDrawHoleEnabled(false);
+        pieChart.setHoleColor(Color.WHITE);
+        pieChart.setTransparentCircleRadius(61f);
+
+        Description description = new Description();
+        description.setText("선호 장르"); //라벨
+        description.setTextSize(15);
+        pieChart.setDescription(description);
+        PieDataSet dataSet = new PieDataSet(yValues,"Genre");
+        dataSet.setSliceSpace(3f);
+        dataSet.setSelectionShift(5f);
+        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+        PieData data2 = new PieData((dataSet));
+        data2.setValueTextSize(10f);
+        data2.setValueTextColor(Color.YELLOW);
+        pieChart.setData(data2);
+
         new Thread()
         {
             @Override
@@ -78,6 +98,11 @@ public class MyPage extends AppCompatActivity {
                 json.requestWebServer(callback,"SelectUser.php","ID="+intent.getStringExtra("M_ID"));
             }
         }.start();
+
+
+        tv_name=findViewById(R.id.page_name);
+        tv_wish_num=findViewById(R.id.page_wish_num);
+
 
         b_name.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +134,10 @@ public class MyPage extends AppCompatActivity {
                 }
             }
         });
+
+
+
+
     }
     private final Callback callback2 = new Callback() {
 
@@ -222,7 +251,7 @@ public class MyPage extends AppCompatActivity {
                     }
                 });
                 final String s2=data.getString("Follow");
-                final String s3=data.getString("Following");
+                final String s3=data.getString("Follower");
 
                 handler.post(new Runnable() {
                     @Override
@@ -231,11 +260,13 @@ public class MyPage extends AppCompatActivity {
                         tv_following.setText(s3);
                     }
                 });
-                JSONArray dataarr=data.getJSONArray("WishArray");
+                JSONArray dataarr= new JSONArray(data.getString("WishArray"));
 
                 HashMap<String,Integer> map=new HashMap<>();
                 for(int i=0;i<dataarr.length();i++) {
+
                     JSONObject data2=dataarr.getJSONObject(i);
+                    Log.d("webtoon1",data2.getString("GENRE"));
                     Integer Count=map.get(data2.getString("GENRE"));
                     if(Count==null)Count=1;
                     else Count++;
@@ -250,30 +281,7 @@ public class MyPage extends AppCompatActivity {
                 if(dataarr.length()==0)
                     yValues.add((new PieEntry(1,"선호 없음 ")));
 
-                pieChart.setUsePercentValues(true);
-                pieChart.getDescription().setEnabled(false);
-                pieChart.setExtraOffsets(5,10,5,5);
-
-                pieChart.setDragDecelerationFrictionCoef(0.95f);
-
-                pieChart.setDrawHoleEnabled(false);
-                pieChart.setHoleColor(Color.WHITE);
-                pieChart.setTransparentCircleRadius(61f);
-
-                Description description = new Description();
-                description.setText("선호 장르"); //라벨
-                description.setTextSize(15);
-                pieChart.setDescription(description);
-
-                PieDataSet dataSet = new PieDataSet(yValues,"Genre");
-                dataSet.setSliceSpace(3f);
-                dataSet.setSelectionShift(5f);
-                dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
-                PieData data2 = new PieData((dataSet));
-                data2.setValueTextSize(10f);
-                data2.setValueTextColor(Color.YELLOW);
-                pieChart.setData(data2);
-
+                pieChart.invalidate();
             } catch (JSONException e) {
                 e.printStackTrace();
             }

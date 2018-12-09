@@ -13,21 +13,29 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Loading">
+        <activity android:name=".Loading"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".WebtoonList" />
-        <activity android:name=".WebttonViewer" />
+        <activity android:name=".WebtoonList"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".WebttonViewer"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".MainActivity"
-            android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".Register" />
-        <activity android:name=".NewRegister" />
-        <activity android:name=".MyPage"></activity>
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Register"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".NewRegister"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MyPage"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

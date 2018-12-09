@@ -1,12 +1,14 @@
 package com.example.jaery.javaproject;
 
 import android.graphics.Bitmap;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
 
-public class WebToonItem {
+public class WebToonItem implements Parcelable {
 
     public WebToonItem(int Type,String ID,String Genre,String title, String byname, String release,String Big,String small,Bitmap Image)
     {
@@ -26,6 +28,31 @@ public class WebToonItem {
 
         this.icon=image;
     }
+
+    protected WebToonItem(Parcel in) {
+        Genre = in.readString();
+        ID = in.readString();
+        Title = in.readString();
+        Bigimage = in.readString();
+        smallimage = in.readString();
+        Type = in.readInt();
+        byname = in.readString();
+        icon = in.readParcelable(Bitmap.class.getClassLoader());
+        release = in.readString();
+    }
+
+    public static final Creator<WebToonItem> CREATOR = new Creator<WebToonItem>() {
+        @Override
+        public WebToonItem createFromParcel(Parcel in) {
+            return new WebToonItem(in);
+        }
+
+        @Override
+        public WebToonItem[] newArray(int size) {
+            return new WebToonItem[size];
+        }
+    };
+
     public String getTitle() {
         return Title;
     }
@@ -106,7 +133,24 @@ public class WebToonItem {
     private Bitmap icon;
     private String release;
 
-   // ProgressBar progress;
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(Type);
+        dest.writeString(ID);
+        dest.writeString(byname);
+        dest.writeString(release);
+        dest.writeString(Bigimage);
+        dest.writeString(smallimage);
+        dest.writeString(Title);
+        dest.writeString(Genre);
+    }
+
+    // ProgressBar progress;
 
 
 }

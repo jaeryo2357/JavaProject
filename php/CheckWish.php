@@ -10,7 +10,7 @@
 
     $res=mysqli_query($con,$sql);
 
-    $row = mysqli_fetch_array($res)
+    $row = mysqli_fetch_array($res);
 
     $Id=$row['ID_Key'];
 

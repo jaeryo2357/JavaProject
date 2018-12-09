@@ -11,6 +11,7 @@
           while($row=mysqli_fetch_array($res))
           {
             $row_array['ID_Key']=$row['ID_Key'];
+            $row_array['ID']=$row['ID'];
             $row_array['Name']=$row['NAME'];
             array_push($D_row,$row_array);
           }
