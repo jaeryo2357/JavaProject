@@ -135,6 +135,38 @@ public class MyPage extends AppCompatActivity {
             }
         });
 
+        View.OnClickListener onClickListener=new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent;
+                switch (v.getId())
+                {
+                    case R.id.page_follow_num:
+                        intent=new Intent(MyPage.this,UserList.class);
+                        intent.putExtra("php","follower");
+                        intent.putExtra("ID",my_num);
+                        startActivity(intent);
+                        break;
+                    case R.id.page_follower_num:
+                        intent=new Intent(MyPage.this,UserList.class);
+                        intent.putExtra("php","follow");
+                        intent.putExtra("ID",my_num);
+                        startActivity(intent);
+                        break;
+                    case R.id.page_wish_num:
+                        intent=new Intent(MyPage.this,UserList.class);
+                        intent.putExtra("php","Wish");
+                        intent.putExtra("ID",my_num);
+                        startActivity(intent);
+                        break;
+                }
+            }
+        };
+
+        tv_following.setOnClickListener(onClickListener);
+        tv_follow.setOnClickListener(onClickListener);
+        tv_wish_num.setOnClickListener(onClickListener);
 
 
 
@@ -281,7 +313,13 @@ public class MyPage extends AppCompatActivity {
                 if(dataarr.length()==0)
                     yValues.add((new PieEntry(1,"선호 없음 ")));
 
-                pieChart.invalidate();
+
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        pieChart.invalidate();
+                    }
+                });
             } catch (JSONException e) {
                 e.printStackTrace();
             }

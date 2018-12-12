@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="150dp"
+    android:layout_width="170dp"
     android:layout_height="200dp"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:padding="10dp"
+    android:padding="15dp"
     android:layout_margin="6dp"
     card_view:cardCornerRadius="4dp"
     card_view:cardUseCompatPadding="true"
     card_view:cardElevation="8dp">
 
     <RelativeLayout
-        android:layout_width="130dp"
-        android:layout_height="200dp">
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        >
 
         <ImageView
             android:id="@+id/content_card_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="5dp"
             android:src="@mipmap/ic_launcher" />
 
         <TextView
