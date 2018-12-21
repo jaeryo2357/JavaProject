@@ -78,7 +78,9 @@ public class WebToonContentFragment extends Fragment {
         },new boolean[]{true,false,false,false,false,false,false});
         mLayoutManager_genre = new LinearLayoutManager(getActivity());
         ((LinearLayoutManager) mLayoutManager_genre).setOrientation(LinearLayout.HORIZONTAL);
-        mLayoutManager_Webtoon=new GridLayoutManager(getActivity(),3);
+        mLayoutManager_Webtoon=new GridLayoutManager(getActivity(),2);
+        mRecyclerView_Webtoon.offsetChildrenVertical(2);
+        mRecyclerView_Webtoon.offsetChildrenHorizontal(2);
         mRecyclerView_genre.setLayoutManager(mLayoutManager_genre);
         mRecyclerView_Webtoon.setLayoutManager(mLayoutManager_Webtoon);
         mAdapter_Webtoon=new WebtoonAdapter(webtoon,getActivity(),null);

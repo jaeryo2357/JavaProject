@@ -41,7 +41,12 @@ public class UserList extends AppCompatActivity {
         final String mynum=intent.getStringExtra("ID");
         final String php=intent.getStringExtra("php");
         RecyclerView recyclerView=findViewById(R.id.userlist_recycle);
-        recyclerView.setLayoutManager(new GridLayoutManager(UserList.this,3));
+        recyclerView.setLayoutManager(new GridLayoutManager(UserList.this,2));
+
+        recyclerView.offsetChildrenHorizontal(2);
+        recyclerView.offsetChildrenVertical(2);
+
+
         arrayList=new ArrayList<>();
         recycleviewAdatper=new WebtoonAdapter(arrayList,UserList.this,null);
         recyclerView.setAdapter(recycleviewAdatper);
