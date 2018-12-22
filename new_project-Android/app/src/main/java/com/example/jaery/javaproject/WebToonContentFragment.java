@@ -126,6 +126,7 @@ public class WebToonContentFragment extends Fragment {
                 intent.putExtra("Genre",webtoon.get(position).getGenre());
                 intent.putExtra("Byname",webtoon.get(position).getByname());
                 intent.putExtra("ID",webtoon.get(position).getID());
+                intent.putExtra("Explan",webtoon.get(position).getRelease());
                 intent.putExtra("URL",webtoon.get(position).getSmallimage());
                 startActivity(intent);
             }
@@ -174,7 +175,7 @@ public class WebToonContentFragment extends Fragment {
                     InputStream is = conn.getInputStream();
 
                     webtoon.add(new WebToonItem(2,data.getString("ID"), data.getString("Genre"), data.getString("Title"),
-                            data.getString("ByName"), "",data.getString("big_image"),data.getString("small_image"), BitmapFactory.decodeStream(is)));
+                            data.getString("ByName"), data.getString("Explan"),data.getString("big_image"),data.getString("small_image"), BitmapFactory.decodeStream(is)));
                     handler.post(new Runnable() {
                         @Override
                         public void run() {

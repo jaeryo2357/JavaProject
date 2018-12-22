@@ -1,6 +1,7 @@
 package com.example.jaery.javaproject;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -47,35 +48,20 @@ public class MainFragment extends Fragment {
     private ArrayList<WebToonItem> myDataset_New;
     ArrayList<Bitmap> MainNews;
     private ProgressDialog loading;
-    Bitmap b3;
-    Bitmap b2;
-    Bitmap b;
+
     GetJson json;
     AutoScrollAdapter scrollAdapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        b=BitmapFactory.decodeResource(getResources(), R.drawable.web1);
-        b2=BitmapFactory.decodeResource(getResources(), R.drawable.web2);
-        b3=BitmapFactory.decodeResource(getResources(), R.drawable.web3);
+
         json=GetJson.getInstance();
     }
 
     @Override
     public void onDestroyView() {
 
-        if(b.isRecycled()) {
-            b.recycle();
-            b=null;
-        }
-        if(b2.isRecycled()) {
-            b2.recycle();
-            b2=null;
-        }
-        if(b3.isRecycled()) {
-            b3.recycle();
-            b3=null;
-        }
+
         super.onDestroyView();
     }
 
@@ -90,7 +76,8 @@ public class MainFragment extends Fragment {
 
 
 
-
+        final DBOpenHelper mdb=new DBOpenHelper(getActivity());
+        mdb.open();
         autoViewPager = (AutoScrollViewPager) view.findViewById(R.id.main_viewpager);
         scrollAdapter = new AutoScrollAdapter(getActivity(), MainNews);
         autoViewPager.setAdapter(scrollAdapter); //Auto Viewpager에 Adapter 장착
@@ -137,16 +124,20 @@ public class MainFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
 
-        myDataset.add(new WebToonItem(2,"0","", "신과함께1", "작가1","2018.10.2","","",b));
-        myDataset.add(new WebToonItem(2,"0","", "신과함께1", "작가1","2018.10.2","","",b2));
-        myDataset.add(new WebToonItem(2,"0","", "신과함께1", "작가1","2018.10.2","","",b3));
 
 
 
         mRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(), position + "번 째 아이템 클릭", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getActivity(),WebtoonList.class);
+                intent.putExtra("Title",myDataset.get(position).getTitle());
+                intent.putExtra("Genre",myDataset.get(position).getGenre());
+                intent.putExtra("Byname",myDataset.get(position).getByname());
+                intent.putExtra("ID",myDataset.get(position).getID());
+                intent.putExtra("Explan",myDataset.get(position).getRelease());
+                intent.putExtra("URL",myDataset.get(position).getSmallimage());
+                startActivity(intent);
             }
             @Override
             public void onLongItemClick(View view, int position) {
@@ -155,16 +146,19 @@ public class MainFragment extends Fragment {
         }));
         mRecyclerView_New.setAdapter(mAdapter_New);
 
-      myDataset_New.add(new WebToonItem(0,"0","", "신과함께1", "작가1","2018.10.2","","",b));
-        myDataset_New.add(new WebToonItem(0,"0","", "신과함께1", "작가1","2018.10.2","","",b2));
-        myDataset_New.add(new WebToonItem(0,"0","", "신과함께1", "작가1","2018.10.2","","",b3));
+
 
         mRecyclerView_New.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mRecyclerView_New, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getActivity(), position + "번" +
-                        "" +
-                        " 째 아이템 클릭", Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getActivity(),WebtoonList.class);
+                intent.putExtra("Title",myDataset_New.get(position).getTitle());
+                intent.putExtra("Genre",myDataset_New.get(position).getGenre());
+                intent.putExtra("Byname",myDataset_New.get(position).getByname());
+                intent.putExtra("ID",myDataset_New.get(position).getID());
+                intent.putExtra("Explan",myDataset_New.get(position).getRelease());
+                intent.putExtra("URL",myDataset_New.get(position).getSmallimage());
+                startActivity(intent);
             }
             @Override
             public void onLongItemClick(View view, int position) {
@@ -172,6 +166,19 @@ public class MainFragment extends Fragment {
             }
         }));
 
+
+        new Thread()
+        {
+            @Override
+            public void run() {
+                String s;
+                if(mdb.findauto()==0)
+                    s="admin";
+                else
+                    s=mdb.findID();
+                json.requestWebServer(callback2,"Recommend.php","ID="+s);
+            }
+        }.start();
         return view;
     }
     private final Callback callback = new Callback() {
@@ -220,6 +227,55 @@ public class MainFragment extends Fragment {
                         scrollAdapter.notifyDataSetChanged();
                     }
                 });
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    };
+    private final Callback callback2 = new Callback() {
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("webtoon", "콜백오류:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String body = response.body().string();
+            Log.d("webtoon", "서버에서 응답한 Body:" + body);
+
+            Handler handler = new Handler(Looper.getMainLooper());
+
+
+
+            try {
+                JSONArray dataarr=new JSONArray(body);
+
+                for(int i=0;i<dataarr.length();i++) {
+                    JSONObject data=dataarr.getJSONObject(i);
+
+                    URL url = new URL(data.getString("big_image").replace("\\", ""));
+
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+                    InputStream is = conn.getInputStream();
+                    if(i<3)
+                    myDataset.add(new WebToonItem(2,data.getString("ID"), data.getString("Genre"), data.getString("Title"),
+                            data.getString("ByName"), data.getString("Explan"),data.getString("big_image"),data.getString("small_image"), BitmapFactory.decodeStream(is)));
+                    else
+                        myDataset_New.add(new WebToonItem(0,data.getString("ID"), data.getString("Genre"), data.getString("Title"),
+                                data.getString("ByName"), data.getString("Explan"),data.getString("big_image"),data.getString("small_image"), BitmapFactory.decodeStream(is)));
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mAdapter.notifyDataSetChanged();
+                            mAdapter_New.notifyDataSetChanged();
+                        }
+                    });
+
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();

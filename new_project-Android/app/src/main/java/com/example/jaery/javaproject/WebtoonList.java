@@ -82,6 +82,7 @@ public class WebtoonList extends AppCompatActivity {
             }
         }));
 
+        Log.d("WishID",intent.getStringExtra("ID"));
         new Thread()
         {
             @Override
@@ -152,7 +153,7 @@ public class WebtoonList extends AppCompatActivity {
         @Override
         public void onResponse(Call call, Response response) throws IOException {
             String body = response.body().string();
-            Log.d("webtoon", "서버에서 응답한 Body:" + body);
+            Log.d("Wish", "서버에서 응답한 Body:" + body);
 
             try {
                 JSONObject json=new JSONObject(body);

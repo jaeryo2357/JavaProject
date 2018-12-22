@@ -15,7 +15,7 @@
     $Id=$row['ID_Key'];
 
 
-     $sql="SELECT FROM Wish where User_ID='$Id' and Webtoon_ID='$W_ID'";
+     $sql="SELECT * FROM Wish where User_ID='$Id' and Webtoon_ID='$W_Id'";
    
       $res=mysqli_query($con,$sql);
 
