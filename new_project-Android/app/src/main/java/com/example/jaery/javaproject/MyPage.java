@@ -1,10 +1,13 @@
 package com.example.jaery.javaproject;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,6 +57,22 @@ public class MyPage extends AppCompatActivity {
     ArrayList<PieEntry> yValues = new ArrayList<PieEntry>();
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        yValues.clear();
+        new Thread()
+        {
+            @Override
+            public void run() {
+                json.requestWebServer(callback,"SelectUser.php","ID="+intent.getStringExtra("M_ID"));
+            }
+        }.start();
+    }
+
+
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_page);
@@ -80,6 +99,17 @@ public class MyPage extends AppCompatActivity {
         tv_wish_num=findViewById(R.id.page_wish_num);
 
 
+        if(db.findauto()!=0&&db.findID().equals(intent.getStringExtra("M_ID")))
+            b_name.setText("로그 아웃");
+        else if(db.findauto()!=0)
+        {
+            new Thread() {
+                @Override
+                public void run() {
+                    json.requestWebServer(callback5, "FollowCheck.php", "M_ID=" + db.findID(), "A_ID=" + intent.getStringExtra("M_ID"));
+                }
+            }.start();
+        }
         b_name.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,24 +119,56 @@ public class MyPage extends AppCompatActivity {
                         finish();
                 }else if(((Button)v).getText().toString().equals("Follow"))
                 {
-                    ((Button) v).setText("UnFollow");
-                    new Thread()
-                    {
-                        @Override
-                        public void run() {
-                            json.requestWebServer(callback2,"Following.php","M_ID="+db.findID());
-                        }
-                    }.start();
-                }else
-                {
-                    ((Button) v).setText("Follow");
-                    new Thread()
-                    {
-                        @Override
-                        public void run() {
-                            json.requestWebServer(callback3,"UnFollowing.php","M_ID="+intent.getStringExtra("M_ID"));
-                        }
-                    }.start();
+                    if(db.findauto()==0) {
+                        AlertDialog.Builder a = new AlertDialog.Builder(MyPage.this);
+                        a.setTitle("주의").setMessage("로그인이 필요한 서비스 입니다.")
+                                .setPositiveButton("로그인", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(MyPage.this, Register.class);
+                                        startActivity(intent);
+                                    }
+                                }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setCancelable(false).show();
+                    }else {
+
+                        new Thread() {
+                            @Override
+                            public void run() {
+
+                                json.requestWebServer(callback2, "Following.php", "M_ID=" + db.findID(), "A_ID=" + my_num);
+                            }
+                        }.start();
+                    }
+                }else {
+                    if (db.findauto() == 0) {
+                        AlertDialog.Builder a = new AlertDialog.Builder(MyPage.this);
+                        a.setTitle("주의").setMessage("로그인이 필요한 서비스 입니다.")
+                                .setPositiveButton("로그인", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Intent intent = new Intent(MyPage.this, Register.class);
+                                        startActivity(intent);
+                                    }
+                                }).setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        }).setCancelable(false).show();
+                    } else {
+
+                        new Thread() {
+                            @Override
+                            public void run() {
+                                json.requestWebServer(callback3, "UnFollowing.php", "M_ID=" + db.findID(), "A_ID=" + my_num);
+                            }
+                        }.start();
+                    }
                 }
             }
         });
@@ -120,13 +182,13 @@ public class MyPage extends AppCompatActivity {
                 {
                     case R.id.page_follow_num:
                         intent=new Intent(MyPage.this,UserList.class);
-                        intent.putExtra("php","follower");
+                        intent.putExtra("php","Follower");
                         intent.putExtra("ID",my_num);
                         startActivity(intent);
                         break;
                     case R.id.page_follower_num:
                         intent=new Intent(MyPage.this,UserList.class);
-                        intent.putExtra("php","follow");
+                        intent.putExtra("php","Following");
                         intent.putExtra("ID",my_num);
                         startActivity(intent);
                         break;
@@ -167,10 +229,58 @@ public class MyPage extends AppCompatActivity {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            int n=Integer.parseInt(tv_follow.getText().toString());
-                            if(n!=0)
-                                n--;
-                            tv_follow.setText(n+"");
+                            ((Button)findViewById(R.id.page_buttn)).setText("UnFollow");
+                        }
+                    });
+                    tv_following.post(
+                            new Runnable() {
+                                @Override
+                                public void run() {
+                                    int n=Integer.parseInt(tv_following.getText().toString());
+
+                                    if(n!=0)
+                                    tv_following.setText(new Integer(n+1).toString());
+                                    else
+                                        tv_following.setText(new Integer(n).toString());
+                                }
+                            }
+                    );
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
+    };
+    private final Callback callback5 = new Callback() {
+
+        @Override
+        public void onFailure(Call call, IOException e) {
+            Log.d("webtoon", "콜백오류:" + e.getMessage());
+        }
+
+        @Override
+        public void onResponse(Call call, Response response) throws IOException {
+            String body = response.body().string();
+            Log.d("webtoon", "서버에서 응답한 Body:" + body);
+            Handler handler = new Handler(Looper.getMainLooper());
+            try {
+
+                JSONObject data=new JSONObject(body);
+                if(data.getString("result").equals("true"))
+                {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((Button)findViewById(R.id.page_buttn)).setText("UnFollow");
+                        }
+                    });
+                }else
+                {
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((Button)findViewById(R.id.page_buttn)).setText("Follow");
                         }
                     });
                 }
@@ -200,10 +310,13 @@ public class MyPage extends AppCompatActivity {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            int n=Integer.parseInt(tv_follow.getText().toString());
+                            ((Button)findViewById(R.id.page_buttn)).setText("Follow");
+                            int n=Integer.parseInt(tv_following.getText().toString());
+
                             if(n!=0)
-                                n++;
-                            tv_follow.setText(n+"");
+                                tv_following.setText(new Integer(n-1).toString());
+                            else
+                                tv_following.setText(new Integer(n).toString());
                         }
                     });
                 }
@@ -239,17 +352,7 @@ public class MyPage extends AppCompatActivity {
 
                 my_num=data.getString("ID_Key");
 
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if(db.findID().equals(check))
-                            b_name.setText("로그 아웃");
-                        else
-                        {
-                            b_name.setText("Follow");
-                        }
-                    }
-                });
+
                final String s1=data.getString("Wish_Num");
                 handler.post(new Runnable() {
                     @Override

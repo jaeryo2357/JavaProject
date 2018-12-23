@@ -32,14 +32,39 @@ public class UserList extends AppCompatActivity {
     GetJson json;
     RecyclerView.Adapter recycleviewAdatper;
     ArrayList<WebToonItem> arrayList;
+
     @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        arrayList.clear();
+        if (!php.equals("Wish")) {
+            new Thread() {
+                @Override
+                public void run() {
+                    json.requestWebServer(callback, "FollowSearch.php", "ID=" + mynum, "php=" + php);
+                }
+            }.start();
+        } else {
+            new Thread() {
+                @Override
+                public void run() {
+                    json.requestWebServer(callback2, "WishSearch.php", "ID=" + mynum);
+                }
+            }.start();
+        }
+    }
+    String php;
+    String mynum;
+    @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_list);
         json=GetJson.getInstance();
         final Intent intent=getIntent();
-        final String mynum=intent.getStringExtra("ID");
-        final String php=intent.getStringExtra("php");
+        mynum=intent.getStringExtra("ID");
+        php=intent.getStringExtra("php");
         RecyclerView recyclerView=findViewById(R.id.userlist_recycle);
         recyclerView.setLayoutManager(new GridLayoutManager(UserList.this,2));
 
@@ -57,7 +82,7 @@ public class UserList extends AppCompatActivity {
                 if(!php.equals("Wish"))
                 {
                     intent1=new Intent(UserList.this,MyPage.class);
-                    intent1.putExtra("M_ID",arrayList.get(position).getID());
+                    intent1.putExtra("M_ID",arrayList.get(position).getGenre());
 
                 }else
                 {
@@ -67,6 +92,7 @@ public class UserList extends AppCompatActivity {
                     intent1.putExtra("Byname",arrayList.get(position).getByname());
                     intent1.putExtra("ID",arrayList.get(position).getID());
                     intent1.putExtra("URL",arrayList.get(position).getSmallimage());
+                    intent1.putExtra("Explan",arrayList.get(position).getRelease());
                 }
 
                 startActivity(intent1);
@@ -116,7 +142,7 @@ public class UserList extends AppCompatActivity {
 
 
 
-                    arrayList.add(new WebToonItem(2,data.getString("U_ID"),"", data.getString("U_name"),
+                    arrayList.add(new WebToonItem(2,data.getString("U_ID_Key"),data.getString("U_ID"), data.getString("U_name"),
                             "", "","","", null));
                     handler.post(new Runnable() {
                         @Override
@@ -164,7 +190,7 @@ public class UserList extends AppCompatActivity {
                     InputStream is = conn.getInputStream();
 
                     arrayList.add(new WebToonItem(2,data.getString("ID"), data.getString("Genre"), data.getString("Title"),
-                            data.getString("ByName"), "",data.getString("big_image"),data.getString("small_image"), BitmapFactory.decodeStream(is)));
+                            data.getString("ByName"), data.getString("Explan"),data.getString("big_image"),data.getString("small_image"), BitmapFactory.decodeStream(is)));
                     handler.post(new Runnable() {
                         @Override
                         public void run() {

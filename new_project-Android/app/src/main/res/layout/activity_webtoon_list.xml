@@ -17,7 +17,7 @@
     <ImageView
         android:layout_width="70dp"
         android:layout_marginRight="20dp"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:id="@+id/List_Image"
         android:layout_toRightOf="@id/List_Back"
         android:src="@mipmap/ic_launcher"
@@ -79,11 +79,35 @@
 
     </View>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="줄거리"
+        android:textStyle="bold"
+        android:layout_margin="10dp"
+        android:textSize="17sp"
+        android:id="@+id/List_explan_tv"
+        android:layout_below="@id/List_stroke"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:id="@+id/List_explan"
+        android:layout_below="@id/List_explan_tv"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/List_stroke2"
+        android:background="#aaaaaa"
+        android:layout_below="@id/List_explan"></View>
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/List_Recycle"
-        android:layout_below="@id/List_stroke">
+        android:layout_below="@id/List_stroke2">
 
 
 

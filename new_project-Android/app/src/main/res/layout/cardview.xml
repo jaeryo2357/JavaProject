@@ -47,21 +47,21 @@
                 android:id="@+id/cardview_byname"
                 android:textStyle="bold"
                 android:layout_alignTop="@id/cardview_title"
-                android:layout_toRightOf="@id/cardview_title"
-                android:layout_marginLeft="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="25dp"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="10sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_marginTop="4dp"
                 android:id="@+id/cardview_time"
-                android:layout_alignTop="@id/cardview_title"
+                android:layout_below="@id/cardview_title"
+                android:layout_margin="15dp"
                 android:text="2018.11.06"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="25dp"/>
+                />
 
         </RelativeLayout>
 

@@ -238,6 +238,19 @@ public class MainActivity extends AppCompatActivity {
             b.setImageResource(R.drawable.ic_label_outline_black_24dp);
             b=findViewById(R.id.main_B_Search);
             b.setImageResource(R.drawable.ic_people_black_24dp);
+        }else
+        {
+            fm=getSupportFragmentManager();
+            fragmentTransaction=fm.beginTransaction();
+
+            searchFr=new SearchFragment();
+            Bundle bundle = new Bundle(1); // 파라미터는 전달할 데이터 개수
+            bundle.putString("searchString", SearchString);
+            SearchString="";// key , value
+            searchFr.setArguments(bundle);
+
+            fragmentTransaction.replace(R.id.main_FrameLayout,searchFr);
+            fragmentTransaction.commit();
         }
     }
    public void FrHome(View view)

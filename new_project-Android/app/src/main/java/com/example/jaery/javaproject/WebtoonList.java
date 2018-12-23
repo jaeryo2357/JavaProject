@@ -43,7 +43,7 @@ public class WebtoonList extends AppCompatActivity {
     private ImageView imageView;
     GetJson json;
     Intent intent;
-    boolean favorie;
+    boolean favorie=false;
     DBOpenHelper mdb;
     ImageButton favorite_b;
 
@@ -51,51 +51,54 @@ public class WebtoonList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_webtoon_list);
-        json=GetJson.getInstance();
-        webtoon=new ArrayList<>();
-        mRecyclerView_Webtoon=findViewById(R.id.List_Recycle);
+        json = GetJson.getInstance();
+        webtoon = new ArrayList<>();
+        mRecyclerView_Webtoon = findViewById(R.id.List_Recycle);
         mRecyclerView_Webtoon.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter_Webtoon=new WebtoonAdapter(webtoon,this,null);
+        mAdapter_Webtoon = new WebtoonAdapter(webtoon, this, null);
         mRecyclerView_Webtoon.setAdapter(mAdapter_Webtoon);
-        imageView=findViewById(R.id.List_Image);
-        intent=getIntent();
-        mdb=new DBOpenHelper(this);
+        imageView = findViewById(R.id.List_Image);
+        intent = getIntent();
+        mdb = new DBOpenHelper(this);
         mdb.open();
-        favorite_b=findViewById(R.id.List_favorite);
-        ((TextView)findViewById(R.id.List_Title)).setText(intent.getStringExtra("Title"));
-        ((TextView)findViewById(R.id.List_Genre)).setText(intent.getStringExtra("Genre"));
-        ((TextView)findViewById(R.id.List_Byname)).setText(intent.getStringExtra("Byname"));
-        image_small_url=intent.getStringExtra("URL");
+        favorite_b = findViewById(R.id.List_favorite);
+        ((TextView) findViewById(R.id.List_Title)).setText(intent.getStringExtra("Title"));
+        ((TextView) findViewById(R.id.List_Genre)).setText(intent.getStringExtra("Genre"));
+        ((TextView) findViewById(R.id.List_Byname)).setText(intent.getStringExtra("Byname"));
+        ((TextView) findViewById(R.id.List_explan)).setText(intent.getStringExtra("Explan"));
+        image_small_url = intent.getStringExtra("URL");
 
         mRecyclerView_Webtoon.addOnItemTouchListener(new RecyclerItemClickListener(this, mRecyclerView_Webtoon, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent=new Intent(WebtoonList.this,WebttonViewer.class);
-                intent.putExtra("Index",webtoon.get(position).getGenre());
-                intent.putExtra("ID",webtoon.get(position).getID());
-                intent.putExtra("Content_ID",webtoon.get(position).getTitle().replace("화",""));
+                Intent intent = new Intent(WebtoonList.this, WebttonViewer.class);
+                intent.putExtra("Index", webtoon.get(position).getGenre());
+                intent.putExtra("ID", webtoon.get(position).getID());
+                intent.putExtra("Content_ID", webtoon.get(position).getTitle().replace("화", ""));
                 startActivity(intent);
             }
+
             @Override
             public void onLongItemClick(View view, int position) {
                 //  Toast.makeText(getApplicationContext(), position + "번 째 아이템 롱 클릭", Toast.LENGTH_SHORT).show();
             }
         }));
 
-        Log.d("WishID",intent.getStringExtra("ID"));
-        new Thread()
-        {
-            @Override
-            public void run() {
-                json.requestWebServer(callback,"WebtoonList.php","ID="+intent.getStringExtra("ID"));
-            }
-        }.start();
+        Log.d("WishID", intent.getStringExtra("ID"));
         new Thread() {
             @Override
             public void run() {
-                json.requestWebServer(callback4, "CheckWish.php", "ID=" + mdb.findID(), "W_ID=" + intent.getStringExtra("ID"));
+                json.requestWebServer(callback, "WebtoonList.php", "ID=" + intent.getStringExtra("ID"));
             }
         }.start();
+        if (mdb.findauto() != 0) {
+            new Thread() {
+                @Override
+                public void run() {
+                    json.requestWebServer(callback4, "CheckWish.php", "ID=" + mdb.findID(), "W_ID=" + intent.getStringExtra("ID"));
+                }
+            }.start();
+        }
     }
 
     public void Fevorite(View v)

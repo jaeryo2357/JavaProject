@@ -14,9 +14,9 @@
 
     $row = mysqli_fetch_array($res);
       
-    $M_ID=$row['ID_Key'];
+    $M_Id=$row['ID_Key'];
         
-    $sql="INSERT INTO Follow(Follower,Following) Values($M_Id,$A_Id)";
+    $sql="INSERT INTO Follow(Follower,Following) Values('$M_Id','$A_Id')";
    
 
 

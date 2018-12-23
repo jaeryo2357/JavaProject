@@ -75,7 +75,7 @@ public class SearchFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent=new Intent(getActivity(),MyPage.class);
-                intent.putExtra("M_ID",r_m.get(position).getBigimage());
+                intent.putExtra("M_ID",r_m.get(position).getGenre());
                 startActivity(intent);
             }
             @Override
@@ -93,6 +93,7 @@ public class SearchFragment extends Fragment {
                 intent.putExtra("Byname",r_w.get(position).getByname());
                 intent.putExtra("ID",r_w.get(position).getID());
                 intent.putExtra("URL",r_w.get(position).getSmallimage());
+                intent.putExtra("Explan",r_w.get(position).getGenre());
                 startActivity(intent);
             }
             @Override
@@ -174,11 +175,11 @@ public class SearchFragment extends Fragment {
                 {
                     JSONObject data=jsonArray.getJSONObject(i);
                     r_m.add(new WebToonItem(3,data.getString("ID_Key"),
-                            "",
+                            data.getString("ID"),
                             data.getString("Name"),
                             "",
                             "",
-                            data.getString("ID"),"",null));
+                            "","",null));
                 }
 
 
@@ -188,7 +189,7 @@ public class SearchFragment extends Fragment {
                     JSONObject data=jsonArray2.getJSONObject(i);
 
                     r_w.add(new WebToonItem(3,data.getString("W_ID"),
-                            "",
+                            data.getString("W_Explan"),
                             data.getString("W_Title"),
                             data.getString("W_ByName"),
                             data.getString("W_Genre"),

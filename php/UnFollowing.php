@@ -13,7 +13,7 @@
 
     $row = mysqli_fetch_array($res);
       
-    $M_ID=$row['ID_Key'];
+    $M_Id=$row['ID_Key'];
 
      $sql="DELETE FROM Follow WHERE Follower='$M_Id' AND Following='$A_Id'";
    
